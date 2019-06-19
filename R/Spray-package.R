@@ -11,7 +11,7 @@ NULL
 #' bivariate normal regression model in which elements of the response matrix
 #' are missing at random. Estimation is performed using \code{\link{fit.bnr}}.
 #' Inference on regression parameters for the target outcome is performed using
-#' \code{\link{Spray}}.
+#' \code{\link{test.bnr}}.
 #'
 #' @author Zachary R. McCaw
 #' @docType package

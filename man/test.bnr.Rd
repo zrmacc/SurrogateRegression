@@ -16,7 +16,7 @@ test.bnr(t, s, X, Z = NULL, L, test = "Wald", ...)
 \item{L}{Logical vector, with as many entires as columns in the target model
 matrix, indicating which columns have coefficient zero under the null.}
 
-\item{test}{Either Score or Wald.}
+\item{test}{Either Score or Wald. Only Wald is available with LS.}
 
 \item{...}{Additional arguments accepted if fitting via EM.}
 }
@@ -25,13 +25,9 @@ A numeric vector containing the test statistic, the degrees of
   freedom, and a p-value.
 }
 \description{
-Inference procedure for bivariate normal regression models. The EM algorithm
-is applied if \code{s} contains missing values, or if \code{X} differs from
-\code{Z}. Otherwise, an accelerated least squares procedure is applied.
-}
-\details{
-Performs a test of the null hypothesis that a subset of the regression
-parameters for the target outcome are zero.
+Inference procedure for bivariate normal regression models. Performs a test
+of the null hypothesis that a subset of the regression parameters for the
+target outcome are zero.
 }
 \examples{
 \dontrun{

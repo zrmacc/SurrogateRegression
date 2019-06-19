@@ -3,19 +3,16 @@
 
 #' Test Bivariate Normal Regression Model.
 #'
-#' Inference procedure for bivariate normal regression models. The EM algorithm
-#' is applied if \code{s} contains missing values, or if \code{X} differs from
-#' \code{Z}. Otherwise, an accelerated least squares procedure is applied.
-#'
-#' Performs a test of the null hypothesis that a subset of the regression
-#' parameters for the target outcome are zero.
+#' Inference procedure for bivariate normal regression models. Performs a test
+#' of the null hypothesis that a subset of the regression parameters for the
+#' target outcome are zero.
 #'
 #' @param t Target outcome vector.
 #' @param s Surrogate outcome vector.
 #' @param X Model matrix.
 #' @param L Logical vector, with as many entires as columns in the target model
 #'   matrix, indicating which columns have coefficient zero under the null.
-#' @param test Either Score or Wald.
+#' @param test Either Score or Wald. Only Wald is available with LS.
 #' @param ... Additional arguments accepted if fitting via EM.
 #'
 #' @importFrom stats model.matrix pchisq resid vcov
@@ -55,11 +52,7 @@ test.bnr = function(t,s,X,Z=NULL,L,test="Wald",...){
     }
   } else {
     # Otherwise, apply the least squares procedure.
-    if(test=="Score"){
-      Out = Score.bnls(t=t,s=s,X=X,L=L);
-    } else {
-      Out = Wald.bnls(t=t,s=s,X=X,L=L);
-    }
+    Out = Wald.bnls(t=t,s=s,X=X,L=L);
   }
   # Output
   return(Out);

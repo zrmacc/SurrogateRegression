@@ -27,7 +27,7 @@
 #' @examples
 #' \dontrun{
 #' # See `? rBNR` for data generation
-#' fit.bnem(t=t,s=s,X=X,Z=Z,maxit=100,eps=1e-8,report=T);
+#' fit.bnr(t=t,s=s,X=X,Z=Z,maxit=100,eps=1e-8,report=T);
 #' }
 
 fit.bnr = function(t,s,X,Z=NULL,sig=0.05,...){
