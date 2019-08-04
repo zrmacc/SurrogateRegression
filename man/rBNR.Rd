@@ -19,10 +19,10 @@ rBNR(X, Z, b, a, mt = 0, ms = 0, S)
 
 \item{ms}{Surrogate missingness in [0,1].}
 
-\item{S}{Target-surrogate covariance structure.}
+\item{S}{2x2 target-surrogate covariance matrix.}
 }
 \value{
-Numeric \eqn{n} by 2 matrix. The first column contains the target
+Numeric nx2 matrix. The first column contains the target
   outcome, the second contains the surrogate outcome.
 }
 \description{

@@ -4,18 +4,20 @@
 \alias{vcov.bnr}
 \title{Extract Covariance Matrix from Multivariate Regression Model}
 \usage{
-\method{vcov}{bnr}(object, ..., type = "Information", inv = F)
+\method{vcov}{bnr}(object, ..., type = "Regression", inv = F)
 }
 \arguments{
 \item{object}{A \code{bnr} object.}
 
 \item{...}{Unused.}
 
-\item{type}{Either Outcome or Information. Default is Information.}
+\item{type}{Select "Covariance","Outcome",or "Regression". Default is
+"Regression".}
 
 \item{inv}{Invert the covariance matrix? Default is FALSE.}
 }
 \description{
-Returns the either the estimated covariance matrix of the outcome,
-or the information matrix of the regression coefficients.
+Returns the either the estimated covariance matrix of the outcome, the
+information matrix for regression coefficients, or the information matrix for
+covariance parameters.
 }

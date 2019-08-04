@@ -1,5 +1,5 @@
 # Purpose: Wald test for bivariate normal regression via EM.
-# Updated: 18/10/25
+# Updated: 19/08/02
 
 #' Wald Test via Expectation Maximization.
 #'
@@ -11,7 +11,8 @@
 #' @param X Target model matrix.
 #' @param L Logical vector, with as many entires as columns in the target model
 #'   matrix, indicating which columns have coefficient zero under the null.
-#' @param init Optional list of initial parameters for fitting the null model.
+#' @param init Optional list of initial parameters for fitting the null model,
+#'   with one or more of the components: a0, b0, S0.
 #' @param maxit Maximum number of parameter updates.
 #' @param eps Minimum acceptable improvement in log likelihood.
 #' @param report Report model fitting progress? Default is FALSE.
@@ -36,7 +37,7 @@ Wald.bnem = function(t,s,X,Z,L,init=NULL,maxit=100,eps=1e-8,report=F){
   M0 = fit.bnem(t=t,s=s,X=X,Z=Z,b0=init$b0,a0=init$a0,S0=init$S0,maxit=maxit,eps=eps,report=report);
 
   # Extract information
-  I = vcov(M0,type="Information",inv=F);
+  I = vcov(M0,type="Regression",inv=F);
   # Surrogate covariates
   q = ncol(Z);
 

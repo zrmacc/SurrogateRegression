@@ -4,12 +4,14 @@
 \alias{print.bnr}
 \title{Print for Bivariate Regression Model}
 \usage{
-\method{print}{bnr}(x, ...)
+\method{print}{bnr}(x, ..., type = "Regression")
 }
 \arguments{
 \item{x}{A \code{bnr} object.}
 
 \item{...}{Unused.}
+
+\item{type}{Either Regression or Covariance.}
 }
 \description{
 Print for Bivariate Regression Model

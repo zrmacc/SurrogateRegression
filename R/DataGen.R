@@ -1,30 +1,28 @@
 # Purpose: Data generation for bivariate normal regression model.
-# Updated: 19/06/18
-
-library(foreach);
+# Updated: 19/07/30
 
 ########################
 # Data Generation
 ########################
 
 #' Simulate Bivariate Normal Data with Missingness
-#' 
+#'
 #' Function to simulate from a bivariate normal regression model with outcomes
 #' missing completely at random.
-#' 
+#'
 #' @param X Target design matrix.
 #' @param Z Surrogate design matrix.
 #' @param b Target regression coefficient.
 #' @param a Surrogate regression coefficient.
 #' @param mt Target missingness in [0,1].
 #' @param ms Surrogate missingness in [0,1].
-#' @param S Target-surrogate covariance structure.
-#'   
+#' @param S 2x2 target-surrogate covariance matrix.
+#'
 #' @importFrom mvnfast rmvn
 #' @export
-#' @return Numeric \eqn{n} by 2 matrix. The first column contains the target
+#' @return Numeric nx2 matrix. The first column contains the target
 #'   outcome, the second contains the surrogate outcome.
-#'   
+#'
 #' @examples
 #' \dontrun{
 #' set.seed(100);
@@ -50,11 +48,11 @@ rBNR = function(X,Z,b,a,mt=0,ms=0,S){
   # Linear predictors
   ht = MMP(X,b);
   hs = MMP(Z,a);
-  # Residuals 
+  # Residuals
   E = rmvn(n=n,mu=c(0,0),sigma=S);
   # Outcomes
   Y = cbind(ht,hs)+E;
-  
+
   ## Missingness
   # Target
   Mt = floor(mt*n);
@@ -70,9 +68,9 @@ rBNR = function(X,Z,b,a,mt=0,ms=0,S){
     Draw = sort(sample(x=Choices,size=Ms,replace=F));
     Y[Draw,2] = NA;
   }
-  
+
   ## Output
-  colnames(Y) = c("t","s");
+  colnames(Y) = c("T","S");
   rownames(Y) = seq(1:n);
   return(Y);
 }

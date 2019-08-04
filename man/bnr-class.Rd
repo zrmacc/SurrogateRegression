@@ -10,12 +10,16 @@ Bivariate Regression Model
 \section{Slots}{
 
 \describe{
-\item{\code{Coefficients}}{Regression coefficients.}
+\item{\code{Covariance}}{Residual covariance matrix.}
 
-\item{\code{Covariance}}{Outcome covariance matrix.}
+\item{\code{Covariance.info}}{Information for covariance parameters.}
 
-\item{\code{Information}}{Information.}
+\item{\code{Covariance.tab}}{Table of covariance parameters.}
 
-\item{\code{Residuals}}{Phenotypic residuals.}
+\item{\code{Regression.info}}{Information for regression coefficients.}
+
+\item{\code{Regression.tab}}{Table of regression coefficients.}
+
+\item{\code{Residuals}}{Outcome residuals.}
 }}
 

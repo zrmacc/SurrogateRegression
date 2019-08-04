@@ -25,9 +25,9 @@ A numeric vector containing the test statistic, the degrees of
   freedom, and a p-value.
 }
 \description{
-Inference procedure for bivariate normal regression models. Performs a test
-of the null hypothesis that a subset of the regression parameters for the
-target outcome are zero.
+Performs a test of the null hypothesis that a subset of the regression
+parameters for the target outcome are zero in the bivariate normal regression
+model.
 }
 \examples{
 \dontrun{

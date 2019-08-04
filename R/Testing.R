@@ -3,9 +3,9 @@
 
 #' Test Bivariate Normal Regression Model.
 #'
-#' Inference procedure for bivariate normal regression models. Performs a test
-#' of the null hypothesis that a subset of the regression parameters for the
-#' target outcome are zero.
+#' Performs a test of the null hypothesis that a subset of the regression
+#' parameters for the target outcome are zero in the bivariate normal regression
+#' model.
 #'
 #' @param t Target outcome vector.
 #' @param s Surrogate outcome vector.

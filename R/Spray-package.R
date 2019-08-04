@@ -1,5 +1,5 @@
 # Purpose: Package documentation
-# Updated: 19/01/28
+# Updated: 19/07/30
 
 #' @useDynLib Spray, .registration = TRUE
 #' @importFrom Rcpp sourceCpp
@@ -9,8 +9,10 @@ NULL
 #'
 #' This package performs estimation and inference for the parameters of a
 #' bivariate normal regression model in which elements of the response matrix
-#' are missing at random. Estimation is performed using \code{\link{fit.bnr}}.
-#' Inference on regression parameters for the target outcome is performed using
+#' are missing at random. In the case of bilateral missingness, estimation is
+#' performed using \code{\link{fit.bnem}}. In the case of unilaterial
+#' missingness, estimation is performed using \code{\link{fit.bnls}}. Inference
+#' on regression parameters for the target outcome is performed using
 #' \code{\link{test.bnr}}.
 #'
 #' @author Zachary R. McCaw

@@ -32,7 +32,7 @@ is applied if \code{s} contains missing values, or if \code{X} differs from
 \details{
 The target and surrogate model matrices are expected in numeric format.
 Include an intercept if required. Expand factors and interactions in advance.
-See \code{\link{fit.bnem}} for additional options accepted if fitting via EM.
+See \code{\link{fit.bnem}} for additional options accepted when fitting via EM.
 }
 \examples{
 \dontrun{

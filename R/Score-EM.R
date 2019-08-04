@@ -1,5 +1,5 @@
 # Purpose: Score test for bivariate normal regression via EM.
-# Updated: 18/09/11
+# Updated: 19/08/02
 
 #' Score Test via Expectation Maximization.
 #'
@@ -34,10 +34,11 @@ Score.bnem = function(t,s,X,Z,L,init=NULL,maxit=100,eps=1e-8,report=F){
   if(df==p){stop("At least 1 entry of L should be FALSE.")};
 
   ## Partition
-  Xa = X[,L,drop=F];
-  Xb = X[,!L,drop=F];
+  X.test = X[,L,drop=F];
+  X.null = X[,!L,drop=F];
   # Fit null model
-  M0 = fit.bnem(t=t,s=s,X=Xb,Z=Z,b0=init$b0,a0=init$a0,S0=init$S0,maxit=maxit,eps=eps,report=report);
+  M0 = fit.bnem(t=t,s=s,X=X.null,Z=Z,b0=init$b0,a0=init$a0,S0=init$S0,maxit=maxit,eps=eps,report=report);
+
   # Extract covariance
   S = vcov(M0,type="Outcome",inv=F);
   L = matInv(S);
@@ -45,37 +46,61 @@ Score.bnem = function(t,s,X,Z,L,init=NULL,maxit=100,eps=1e-8,report=F){
   eT = resid(M0,type="Target");
   eS = resid(M0,type="Surrogate");
 
-  ## Keys
-  mt = is.na(eT);
-  ms = is.na(eS);
-  # Complete cases
-  key0 = (!mt)&(!ms);
-  # Surrogate missing
-  key2 = (!mt)&(ms);
+  ## Partition
+  P = list();
+  P$Inds$TarMiss = is.na(eT);
+  P$Inds$SurMiss = is.na(eS);
+  n0 = sum(P$Inds$TarMiss);
+  n2 = sum(P$Inds$SurMiss);
+
+  # Keys
+  P$Complete$key = (!P$Inds$TarMiss)&(!P$Inds$SurMiss);
+  P$SurMiss$key = (!P$Inds$TarMiss)&(P$Inds$SurMiss);
 
   # Complete cases
-  eT0 = eT[key0];
-  eS0 = eS[key0];
-  Xa0 = Xa[key0,,drop=F];
-  Xb0 = Xb[key0,,drop=F];
-  Z0 = Z[key0,,drop=F];
+  P$Complete$eT = eT[P$Complete$key];
+  P$Complete$eS = eS[P$Complete$key];
+  P$Complete$X.test = X.test[P$Complete$key,,drop=F];
+  P$Complete$X.null = X.null[P$Complete$key,,drop=F];
+  P$Complete$Z = Z[P$Complete$key,,drop=F];
 
   # Surrogate missing
-  eT2 = eT[key2];
-  Xa2 = Xa[key2,,drop=F];
-  Xb2 = Xb[key2,,drop=F];
+  P$SurMiss$eT = eT[P$SurMiss$key];
+  P$SurMiss$X.test = X.test[P$SurMiss$key,,drop=F];
+  P$SurMiss$X.null = X.null[P$SurMiss$key,,drop=F];
 
   ## Score
   U = array(0,dim=c(df,1));
-  U = U+L[1,1]*matIP(Xa0,eT0)+L[1,2]*matIP(Xa0,eS0)+matIP(Xa2,eT2)/S[1,1];
+  if(n0>0){
+    U = U + L[1,1]*matIP(P$Complete$X.test,P$Complete$eT);
+    U = U + L[1,2]*matIP(P$Complete$X.test,P$Complete$eS);
+  }
+  if(n2>0){
+    U = U + matIP(P$SurMiss$X.test,P$SurMiss$eT)/S[1,1];
+  }
 
   ## Information
   # Target information
-  Ibb = L[1,1]*matIP(Xa0,Xa0)+matIP(Xa2,Xa2)/S[1,1];
+  Ibb = array(0,dim=c(df,df));
+  if(n0>0){
+    Ibb = Ibb + L[1,1]*matIP(P$Complete$X.test,P$Complete$X.test);
+  }
+  if(n2>0){
+    Ibb = Ibb + matIP(P$SurMiss$X.test,P$SurMiss$X.test)/S[1,1];
+  }
+
   # Nuisance information
-  Iaa = vcov(M0,type="Information");
+  Iaa = vcov(M0,type="Regression");
+
   # Cross information
-  Iba = cbind(L[1,1]*matIP(Xa0,Xb0)+matIP(Xa2,Xb2)/S[1,1],L[1,2]*matIP(Xa0,Z0));
+  Iba = array(0,dim=c(df,ncol(Iaa)));
+  if(n0>0){
+    Iba = Iba + cbind(L[1,1]*matIP(P$Complete$X.test,P$Complete$X.null),
+                      L[1,2]*matIP(P$Complete$X.test,P$Complete$Z));
+  }
+  if(n2>0){
+    Iba[1:df,1:(p-df)] = Iba[1:df,1:(p-df)] + matIP(P$SurMiss$X.test,P$SurMiss$X.null)/S[1,1];
+  }
   V = SchurC(Ibb=Ibb,Iaa=Iaa,Iba=Iba);
 
   ## Test

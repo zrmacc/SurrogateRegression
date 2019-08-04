@@ -1,5 +1,5 @@
 # Purpose: Wald test for bivariate normal regression via least squares.
-# Updated: 19/02/21
+# Updated: 19/08/02
 
 #' Wald Test via Least Squares.
 #'
@@ -29,7 +29,7 @@ Wald.bnls = function(t,s,X,L){
   M0 = fit.bnls(t=t,s=s,X=X);
 
   # Extract information
-  I = vcov(M0,type="Information",inv=F);
+  I = vcov(M0,type="Regression",inv=F);
 
   # Information keys
   key0 = c(L,rep(F,p));

@@ -1,13 +1,23 @@
+# Purpose: Class definitions for bivariate normal regression model.
+# Updated: 19/07/30
+
 #' Bivariate Regression Model
 #'
-#' @slot Coefficients Regression coefficients.
-#' @slot Covariance Outcome covariance matrix.
-#' @slot Information Information.
-#' @slot Residuals Phenotypic residuals.
+#' @slot Covariance Residual covariance matrix.
+#' @slot Covariance.info Information for covariance parameters.
+#' @slot Covariance.tab Table of covariance parameters.
+#' @slot Regression.info Information for regression coefficients.
+#' @slot Regression.tab Table of regression coefficients.
+#' @slot Residuals Outcome residuals.
 #' @name bnr-class
 #' @rdname bnr-class
 #' @exportClass bnr
-setClass(Class="bnr",representation=representation(Coefficients="data.frame",Covariance="matrix",Information="matrix",Residuals="matrix"));
+setClass(Class="bnr",representation=representation(Covariance="matrix",
+                                                   Covariance.info="matrix",
+                                                   Covariance.tab="data.frame",
+                                                   Regression.info="matrix",
+                                                   Regression.tab="data.frame",
+                                                   Residuals="matrix"));
 
 ########################
 # print Method
@@ -17,16 +27,23 @@ setClass(Class="bnr",representation=representation(Coefficients="data.frame",Cov
 #'
 #' @param x A \code{bnr} object.
 #' @param ... Unused.
+#' @param type Either Regression or Covariance.
 #' @export
 
-print.bnr = function(x,...){
-  Coeff = x@Coefficients;
+print.bnr = function(x,...,type="Regression"){
   aux = function(v){
     if(is.numeric(v)){return(signif(v,digits=3))}
     else{return(v)};
   };
-  Coeff[] = lapply(Coeff,aux);
-  print(Coeff);
+  if(type=="Regression"){
+    RegTab = x@Regression.tab;
+    RegTab[] = lapply(RegTab,aux);
+    print(RegTab);
+  } else if(type=="Covariance"){
+    CovTab = x@Covariance.tab;
+    CovTab[] = lapply(CovTab,aux);
+    print(CovTab);
+  }
 };
 
 ########################
@@ -37,7 +54,12 @@ print.bnr = function(x,...){
 #' @param object A \code{bnr} object.
 #' @rdname bnr-method
 #' @importFrom methods show
-setMethod(f="show",signature=c(object="bnr"),definition=function(object){print.bnr(x=object)});
+setMethod(f="show",signature=c(object="bnr"),
+          definition=function(object){
+            print.bnr(x=object,type="Regression");
+            cat("\n");
+            print.bnr(x=object,type="Covariance");
+            });
 
 ########################
 # coef Method
@@ -51,19 +73,14 @@ setMethod(f="show",signature=c(object="bnr"),definition=function(object){print.b
 #' @export
 
 coef.bnr = function(object,...,type=NULL){
-  # Coefficient frame
-  Coeff = object@Coefficients;
-  if(is.null(type)){
-    return(Coeff);
-  } else {
+  Out = object@Regression.tab;
+  if(!is.null(type)){
     Choices = c("Target","Surrogate");
-    if(!(type %in% Choices)){
-      stop(paste("Select type from among Target or Surrogate."));
-    } else {
-      Out = Coeff[Coeff$Outcome==type,];
-      return(Out);
-    }
+    if(!(type %in% Choices)){stop(paste("Select type from among Target or Surrogate."));};
+    Out = Out[Out$Outcome==type,];
   }
+  # Return
+  return(Out);
 };
 
 ########################
@@ -78,19 +95,19 @@ coef.bnr = function(object,...,type=NULL){
 #' @export
 
 residuals.bnr = function(object,...,type=NULL){
+  Out = NULL;
   if(is.null(type)){
-    return(object@Residuals)
+    Out = object@Residuals;
   } else {
     Choices = c("Target","Surrogate");
-    if(!(type %in% Choices)){
-        stop("Select type from among Target or Surrogate.")
-      };
+    if(!(type %in% Choices)){stop("Select type from among Target or Surrogate.")};
     if(type=="Target"){
-      return(object@Residuals[,1]);
-    } else {
-      return(object@Residuals[,2]);
+      Out = object@Residuals[,1];
+    } else if(type=="Surrogate"){
+      Out = object@Residuals[,2];
     }
   }
+  return(Out);
 }
 
 ########################
@@ -99,26 +116,31 @@ residuals.bnr = function(object,...,type=NULL){
 
 #' Extract Covariance Matrix from Multivariate Regression Model
 #'
-#' Returns the either the estimated covariance matrix of the outcome,
-#' or the information matrix of the regression coefficients. 
-#' 
+#' Returns the either the estimated covariance matrix of the outcome, the
+#' information matrix for regression coefficients, or the information matrix for
+#' covariance parameters.
+#'
 #' @param object A \code{bnr} object.
 #' @param ... Unused.
-#' @param type Either Outcome or Information. Default is Information.  
+#' @param type Select "Covariance","Outcome",or "Regression". Default is
+#'   "Regression".
 #' @param inv Invert the covariance matrix? Default is FALSE.
 #' @export
 
-vcov.bnr = function(object,...,type="Information",inv=F){
-  Choices = c("Outcome","Information");
-  if(!(type %in% Choices)){stop("Select type from among Information or Outcome.")};
-  if(type=="Outcome"){
+vcov.bnr = function(object,...,type="Regression",inv=F){
+  Choices = c("Covariance","Outcome","Regression");
+  if(!(type %in% Choices)){stop("Select type from among: Covariance, Outcome, Regression.")};
+  Out = NULL;
+  # Select matrix to output
+  if(type=="Covariance"){
+    Out = object@Covariance.info;
+  } else if(type=="Outcome"){
     Out = object@Covariance;
-    if(inv){Out = matInv(Out)};
-    return(Out);
-  } else {
-    Out = object@Information;
-    # Invert
-    if(inv){Out = matInv(Out);}
-    return(Out);
+  } else if(type=="Regression"){
+    Out = object@Regression.info;
   }
+  # Inversion
+  if(inv){Out = matInv(Out)};
+  # Return
+  return(Out);
 };
