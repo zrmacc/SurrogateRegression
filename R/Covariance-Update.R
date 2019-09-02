@@ -17,7 +17,11 @@ covUpdate = function(P,b0,a0,b1,a1,S0){
   n0 = P$Dims$n0;
   n1 = P$Dims$n1;
   n2 = P$Dims$n2;
-
+  # Structure
+  b0 = matrix(b0,ncol=1);
+  a0 = matrix(a0,ncol=1);
+  b1 = matrix(b1,ncol=1);
+  a1 = matrix(a1,ncol=1);
   # Lambda
   L0 = matInv(S0);
 

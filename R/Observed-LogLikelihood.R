@@ -12,6 +12,9 @@
 #' @export
 
 obsLogLik = function(P,b,a,S){
+  # Structure
+  b = matrix(b,ncol=1);
+  a = matrix(a,ncol=1);
   # Lambda
   L = matInv(S);
   n0 = P$Dims$n0;
@@ -25,20 +28,20 @@ obsLogLik = function(P,b,a,S){
   Z0 = P$Complete$Z0;
 
   E0 = cbind(t0-MMP(X0,b),s0-MMP(Z0,a));
-  l0 = n0*log(det(S))+tr(MMP(L,matIP(E0,E0)));
+  l0 = n0*log(matDet(S))+tr(MMP(L,matIP(E0,E0)));
 
   # Contribution of subjects with target missingness
   s1 = P$TarMiss$s1;
   Z1 = P$TarMiss$Z1;
 
-  E1 = c(s1-MMP(Z1,a));
+  E1 = matrix(c(s1-MMP(Z1,a)),ncol=1);
   l1 = n1*log(S[2,2])+as.numeric(matIP(E1,E1))/S[2,2];
 
   # Contribution of subjects with surrogate missingness
   t2 = P$SurMiss$t2;
   X2 = P$SurMiss$X2;
 
-  E2 = c(t2-MMP(X2,b));
+  E2 = matrix(c(t2-MMP(X2,b)),ncol=1);
   l2 = n2*log(S[1,1])+as.numeric(matIP(E2,E2))/S[1,1];
 
   # Final log likelihood

@@ -9,6 +9,7 @@
 #' @param t Target outcome vector.
 #' @param s Surrogate outcome vector.
 #' @param X Target model matrix.
+#' @param Z Surrogate model matrix.
 #' @param L Logical vector, with as many entires as columns in the target model
 #'   matrix, indicating which columns have coefficient zero under the null.
 #' @param init Optional list of initial parameters for fitting the null model,
@@ -54,7 +55,7 @@ Wald.bnem = function(t,s,X,Z,L,init=NULL,maxit=100,eps=1e-8,report=F){
 
   ## Test
   # Coefficients of interest
-  U = coef(M0,type="Target")[L,"Point"];
+  U = matrix(coef(M0,type="Target")[L,"Point"],ncol=1);
   # Statistic
   Tw = as.numeric(matQF(X=U,A=V));
   # P value

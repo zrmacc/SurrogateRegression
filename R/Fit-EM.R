@@ -199,7 +199,7 @@ fit.bnem = function(t,s,X,Z,sig=0.05,b0=NULL,a0=NULL,S0=NULL,maxit=100,eps=1e-6,
   RegTab = RegTab[,c(7,1:6)];
 
   ## Residuals
-  E = cbind(t-MMP(X,theta0$b),s-MMP(Z,theta0$a));
+  E = cbind(t-MMP(X,matrix(theta0$b,ncol=1)),s-MMP(Z,matrix(theta0$a,ncol=1)));
   colnames(E) = c("Target","Surrogate");
 
   ## Output

@@ -1,6 +1,6 @@
 Package: Spray
 Title: Surrogate Phenotype Regression Analysis
-Version: 0.3.0
+Version: 0.3.1
 Authors@R: person("Zachary", "McCaw", email = "zmccaw@g.harvard.edu", role = c("aut", "cre"))
 Description: Performs estimation and inference for a partially missing target outcome while borrowing information from a surrogate outcome.
 Depends: R (>= 3.4.0)
@@ -9,7 +9,7 @@ Encoding: UTF-8
 LazyData: true
 LinkingTo:
 	Rcpp,
-	RcppEigen
+	RcppArmadillo
 Imports:
 	methods,
 	mvnfast,

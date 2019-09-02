@@ -13,7 +13,9 @@
 
 partSubj = function(t,s,X,Z=NULL){
   if(is.null(Z)){Z=X;}
-
+  # Input structure
+  t = matrix(t,ncol=1);
+  s = matrix(s,ncol=1);
   # Output structure
   Out = list();
 
@@ -39,8 +41,8 @@ partSubj = function(t,s,X,Z=NULL){
 
   ## Complete cases
   key = (R[,1]==1)&(R[,2]==1);
-  t0 = t[key];
-  s0 = s[key];
+  t0 = t[key,,drop=F];
+  s0 = s[key,,drop=F];
   X0 = X[key,,drop=F];
   Z0 = Z[key,,drop=F];
   n0 = length(t0);
@@ -55,8 +57,8 @@ partSubj = function(t,s,X,Z=NULL){
 
   # Target missingness
   key = (R[,1]==0)&(R[,2]==1);
-  t1 = t[key];
-  s1 = s[key];
+  t1 = t[key,,drop=F];
+  s1 = s[key,,drop=F];
   X1 = X[key,,drop=F];
   Z1 = Z[key,,drop=F];
   n1 = length(t1);
@@ -71,8 +73,8 @@ partSubj = function(t,s,X,Z=NULL){
 
   # Surrogate missingness
   key = (R[,1]==1)&(R[,2]==0);
-  t2 = t[key];
-  s2 = s[key];
+  t2 = t[key,,drop=F];
+  s2 = s[key,,drop=F];
   X2 = X[key,,drop=F];
   Z2 = Z[key,,drop=F];
   n2 = length(t2);

@@ -38,21 +38,28 @@ regTab = function(point,info,sig=0.05){
 #'   confidence interval.
 
 covTab = function(point,info,sig=0.05){
-  # Convert to log scale
-  J = diag(point);
-  log.point = log(point);
-  log.info = matQF(X=J,A=info);
-  # Inverse information
-  infoi = matInv(info);
-  log.infoi = matInv(log.info);
-  # Standard errors
-  SE = sqrt(diag(infoi));
-  log.SE = sqrt(diag(log.infoi));
   # Critical value
   z = qnorm(p=1-(sig/2));
+  # Inverse information
+  infoi = matInv(info);
+  # Standard errors
+  SE = sqrt(diag(infoi));
+  # CIs for covariance on original scale
+  L2 = point[2]-SE[2];
+  U2 = point[2]+SE[2];
+  
+  # CI for variances on log scale
+  J = diag(point[c(1,3)]);
+  log.point = log(point[c(1,3)]);
+  log.info = matQF(X=J,A=info[c(1,3),c(1,3)]);
+  log.infoi = matInv(log.info);
+  log.SE = sqrt(diag(log.infoi));
+
   # CIs
-  L = exp(log.point-z*log.SE);
-  U = exp(log.point+z*log.SE);
+  L13 = exp(log.point-z*log.SE);
+  U13 = exp(log.point+z*log.SE);
+  L = c(L13[1],L2,L13[2]);
+  U = c(U13[1],U2,U13[2]);
   # Output
   Out = data.frame("Covariance"=names(point),"Point"=point,"SE"=SE,"L"=L,"U"=U);
   rownames(Out) = seq(1:nrow(Out));

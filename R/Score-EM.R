@@ -43,8 +43,8 @@ Score.bnem = function(t,s,X,Z,L,init=NULL,maxit=100,eps=1e-8,report=F){
   S = vcov(M0,type="Outcome",inv=F);
   L = matInv(S);
   # Extract residuals
-  eT = resid(M0,type="Target");
-  eS = resid(M0,type="Surrogate");
+  eT = matrix(resid(M0,type="Target"),ncol=1);
+  eS = matrix(resid(M0,type="Surrogate"),ncol=1);
 
   ## Partition
   P = list();
@@ -58,14 +58,14 @@ Score.bnem = function(t,s,X,Z,L,init=NULL,maxit=100,eps=1e-8,report=F){
   P$SurMiss$key = (!P$Inds$TarMiss)&(P$Inds$SurMiss);
 
   # Complete cases
-  P$Complete$eT = eT[P$Complete$key];
-  P$Complete$eS = eS[P$Complete$key];
+  P$Complete$eT = eT[P$Complete$key,,drop=F];
+  P$Complete$eS = eS[P$Complete$key,,drop=F];
   P$Complete$X.test = X.test[P$Complete$key,,drop=F];
   P$Complete$X.null = X.null[P$Complete$key,,drop=F];
   P$Complete$Z = Z[P$Complete$key,,drop=F];
 
   # Surrogate missing
-  P$SurMiss$eT = eT[P$SurMiss$key];
+  P$SurMiss$eT = eT[P$SurMiss$key,,drop=F];
   P$SurMiss$X.test = X.test[P$SurMiss$key,,drop=F];
   P$SurMiss$X.null = X.null[P$SurMiss$key,,drop=F];
 

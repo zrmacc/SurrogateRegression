@@ -14,6 +14,8 @@ Wald.bnem(t, s, X, Z, L, init = NULL, maxit = 100, eps = 1e-08,
 
 \item{X}{Target model matrix.}
 
+\item{Z}{Surrogate model matrix.}
+
 \item{L}{Logical vector, with as many entires as columns in the target model
 matrix, indicating which columns have coefficient zero under the null.}
 

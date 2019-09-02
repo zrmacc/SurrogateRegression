@@ -43,6 +43,9 @@
 #' }
 
 rBNR = function(X,Z,b,a,mt=0,ms=0,S){
+  # Structure
+  b = matrix(b,ncol=1);
+  a = matrix(a,ncol=1);
   # Observations
   n = nrow(X);
   # Linear predictors
@@ -70,7 +73,6 @@ rBNR = function(X,Z,b,a,mt=0,ms=0,S){
   }
 
   ## Output
-  colnames(Y) = c("T","S");
-  rownames(Y) = seq(1:n);
+  dimnames(Y) = list(seq(1:n),c("T","S"));
   return(Y);
 }

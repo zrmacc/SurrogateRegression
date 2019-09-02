@@ -44,7 +44,7 @@ Wald.bnls = function(t,s,X,L){
 
   ## Test
   # Coefficients of interest
-  U = coef(M0,type="Target")[L,"Point"];
+  U = matrix(coef(M0,type="Target")[L,"Point"],ncol=1);
   # Statistic
   Tw = as.numeric(matQF(X=U,A=V));
   # P value

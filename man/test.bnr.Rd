@@ -13,6 +13,8 @@ test.bnr(t, s, X, Z = NULL, L, test = "Wald", ...)
 
 \item{X}{Model matrix.}
 
+\item{Z}{Surrogate model matrix.}
+
 \item{L}{Logical vector, with as many entires as columns in the target model
 matrix, indicating which columns have coefficient zero under the null.}
 

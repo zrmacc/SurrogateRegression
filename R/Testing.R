@@ -10,6 +10,7 @@
 #' @param t Target outcome vector.
 #' @param s Surrogate outcome vector.
 #' @param X Model matrix.
+#' @param Z Surrogate model matrix.
 #' @param L Logical vector, with as many entires as columns in the target model
 #'   matrix, indicating which columns have coefficient zero under the null.
 #' @param test Either Score or Wald. Only Wald is available with LS.

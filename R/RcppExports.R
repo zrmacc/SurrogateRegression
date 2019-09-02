@@ -5,49 +5,29 @@
 #' 
 #' Fits the standard OLS model.
 #' 
-#' @param y Numeric vector.
-#' @param X Numeric matrix.
+#' @param y Nx1 Numeric vector.
+#' @param X NxP Numeric matrix.
 #' 
 #' @return List containing the following:
 #' \item{Beta}{Regression coefficient.}
 #' \item{V}{Outcome variance.}
 #' \item{Ibb}{Information matrix for beta.}
 #' \item{Resid}{Outcome residuals.}
-#' 
+#' @export
 fitOLS <- function(y, X) {
     .Call(`_Spray_fitOLS`, y, X)
 }
 
-#' Matrix Trace
+#' Matrix Determinant
 #'
-#' Calculates the trace of a matrix \eqn{A}.
-#'
-#' @param A Numeric matrix.
-#' @return Scalar.
-tr <- function(A) {
-    .Call(`_Spray_tr`, A)
-}
-
-#' Matrix Matrix Product
-#'
-#' Calculates the product \eqn{AB}. 
+#' Calculates the determinant of \eqn{A}.
 #'
 #' @param A Numeric matrix.
-#' @param B Numeric matrix.
-#' @return Numeric matrix. 
-MMP <- function(A, B) {
-    .Call(`_Spray_MMP`, A, B)
-}
-
-#' Matrix Inner Product
-#'
-#' Calculates the product \eqn{A'B}.
-#'
-#' @param A Numeric matrix.
-#' @param B Numeric matrix.
-#' @return Numeric matrix. 
-matIP <- function(A, B) {
-    .Call(`_Spray_matIP`, A, B)
+#' @param logDet Return the logarithm of the determinant? 
+#' @return Scalar. 
+#' @export 
+matDet <- function(A, logDet = FALSE) {
+    .Call(`_Spray_matDet`, A, logDet)
 }
 
 #' Matrix Inverse
@@ -56,29 +36,45 @@ matIP <- function(A, B) {
 #'
 #' @param A Numeric matrix.
 #' @return Numeric matrix. 
+#' @export 
 matInv <- function(A) {
     .Call(`_Spray_matInv`, A)
 }
 
-#' Matrix Determinant
+#' Matrix Inner Product
 #'
-#' Calculates the determinant of \eqn{A}.
+#' Calculates the product \eqn{A'B}.
 #'
 #' @param A Numeric matrix.
-#' @return Scalar. 
-det <- function(A) {
-    .Call(`_Spray_det`, A)
+#' @param B Numeric matrix.
+#' @return Numeric matrix.
+#' @export 
+matIP <- function(A, B) {
+    .Call(`_Spray_matIP`, A, B)
 }
 
-#' Fast Outer Product
-#' 
-#' Calculates the outer product \eqn{XY'}.
-#' 
-#' @param X Numeric matrix.
-#' @param Y Numeric matrix.
+#' Matrix Matrix Product
+#'
+#' Calculates the product \eqn{AB}. 
+#'
+#' @param A Numeric matrix.
+#' @param B Numeric matrix.
 #' @return Numeric matrix.
-matOP <- function(X, Y) {
-    .Call(`_Spray_matOP`, X, Y)
+#' @export  
+MMP <- function(A, B) {
+    .Call(`_Spray_MMP`, A, B)
+}
+
+#' Matrix Outer Product
+#' 
+#' Calculates the outer product \eqn{AB'}.
+#' 
+#' @param A Numeric matrix.
+#' @param B Numeric matrix.
+#' @return Numeric matrix.
+#' @export 
+matOP <- function(A, B) {
+    .Call(`_Spray_matOP`, A, B)
 }
 
 #' Quadratic Form
@@ -87,7 +83,8 @@ matOP <- function(X, Y) {
 #' 
 #' @param X Numeric matrix.
 #' @param A Numeric matrix.
-#' @return Numeric matrix. 
+#' @return Numeric matrix.
+#' @export 
 matQF <- function(X, A) {
     .Call(`_Spray_matQF`, X, A)
 }
@@ -100,7 +97,19 @@ matQF <- function(X, A) {
 #' @param Iaa Information of nuisance parameter
 #' @param Iba Cross information between target and nuisance parameters
 #' @return Numeric matrix. 
+#' @export 
 SchurC <- function(Ibb, Iaa, Iba) {
     .Call(`_Spray_SchurC`, Ibb, Iaa, Iba)
+}
+
+#' Matrix Trace
+#'
+#' Calculates the trace of a matrix \eqn{A}.
+#'
+#' @param A Numeric matrix.
+#' @return Scalar.
+#' @export 
+tr <- function(A) {
+    .Call(`_Spray_tr`, A)
 }
 
