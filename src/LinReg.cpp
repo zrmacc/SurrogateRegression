@@ -13,7 +13,6 @@
 //' \item{V}{Outcome variance.}
 //' \item{Ibb}{Information matrix for beta.}
 //' \item{Resid}{Outcome residuals.}
-//' @export
 // [[Rcpp::export]]
 SEXP fitOLS(const arma::colvec y, const arma::mat X){
   // Observations

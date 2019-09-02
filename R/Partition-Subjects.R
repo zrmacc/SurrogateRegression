@@ -7,8 +7,6 @@
 #' @param s Surrogate outcome vector.
 #' @param X Target model matrix.
 #' @param Z Surrogate model matrix.
-#'
-#' @export
 #' @return List containing the partitioned data.
 
 partSubj = function(t,s,X,Z=NULL){

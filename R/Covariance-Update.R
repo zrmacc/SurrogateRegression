@@ -9,7 +9,6 @@
 #' @param b1 Current target regression coefficient.
 #' @param a1 Current surrogate regression coefficient.
 #' @param S0 Initial target-surrogate covariance matrix.
-#' @export
 #' @return ECM update of the target-surrogate covariance matrix.
 
 covUpdate = function(P,b0,a0,b1,a1,S0){

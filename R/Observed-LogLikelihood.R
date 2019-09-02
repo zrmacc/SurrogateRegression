@@ -9,7 +9,6 @@
 #' @param S Target-surrogate covariance
 #'
 #' @return Observed data log likelihood.
-#' @export
 
 obsLogLik = function(P,b,a,S){
   # Structure

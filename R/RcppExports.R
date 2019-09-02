@@ -13,7 +13,6 @@
 #' \item{V}{Outcome variance.}
 #' \item{Ibb}{Information matrix for beta.}
 #' \item{Resid}{Outcome residuals.}
-#' @export
 fitOLS <- function(y, X) {
     .Call(`_Spray_fitOLS`, y, X)
 }
@@ -25,7 +24,6 @@ fitOLS <- function(y, X) {
 #' @param A Numeric matrix.
 #' @param logDet Return the logarithm of the determinant? 
 #' @return Scalar. 
-#' @export 
 matDet <- function(A, logDet = FALSE) {
     .Call(`_Spray_matDet`, A, logDet)
 }
@@ -36,7 +34,6 @@ matDet <- function(A, logDet = FALSE) {
 #'
 #' @param A Numeric matrix.
 #' @return Numeric matrix. 
-#' @export 
 matInv <- function(A) {
     .Call(`_Spray_matInv`, A)
 }
@@ -48,7 +45,6 @@ matInv <- function(A) {
 #' @param A Numeric matrix.
 #' @param B Numeric matrix.
 #' @return Numeric matrix.
-#' @export 
 matIP <- function(A, B) {
     .Call(`_Spray_matIP`, A, B)
 }
@@ -60,7 +56,6 @@ matIP <- function(A, B) {
 #' @param A Numeric matrix.
 #' @param B Numeric matrix.
 #' @return Numeric matrix.
-#' @export  
 MMP <- function(A, B) {
     .Call(`_Spray_MMP`, A, B)
 }
@@ -72,7 +67,6 @@ MMP <- function(A, B) {
 #' @param A Numeric matrix.
 #' @param B Numeric matrix.
 #' @return Numeric matrix.
-#' @export 
 matOP <- function(A, B) {
     .Call(`_Spray_matOP`, A, B)
 }
@@ -84,7 +78,6 @@ matOP <- function(A, B) {
 #' @param X Numeric matrix.
 #' @param A Numeric matrix.
 #' @return Numeric matrix.
-#' @export 
 matQF <- function(X, A) {
     .Call(`_Spray_matQF`, X, A)
 }
@@ -97,7 +90,6 @@ matQF <- function(X, A) {
 #' @param Iaa Information of nuisance parameter
 #' @param Iba Cross information between target and nuisance parameters
 #' @return Numeric matrix. 
-#' @export 
 SchurC <- function(Ibb, Iaa, Iba) {
     .Call(`_Spray_SchurC`, Ibb, Iaa, Iba)
 }
@@ -108,7 +100,6 @@ SchurC <- function(Ibb, Iaa, Iba) {
 #'
 #' @param A Numeric matrix.
 #' @return Scalar.
-#' @export 
 tr <- function(A) {
     .Call(`_Spray_tr`, A)
 }

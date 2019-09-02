@@ -5,7 +5,6 @@
 #'
 #' @param P List of partitioned data. See \code{\link{partSubj}}.
 #' @param S Target-surrogate covariance matrix.
-#' @export
 #' @return List containing the generalized least squares estimates of beta and
 #'   alpha.
 
