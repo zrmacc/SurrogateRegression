@@ -7,7 +7,7 @@
 \method{print}{bnr}(x, ..., type = "Regression")
 }
 \arguments{
-\item{x}{A \code{bnr} object.}
+\item{x}{\code{bnr} object.}
 
 \item{...}{Unused.}
 

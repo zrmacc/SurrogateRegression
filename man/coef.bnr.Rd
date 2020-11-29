@@ -7,7 +7,7 @@
 \method{coef}{bnr}(object, ..., type = NULL)
 }
 \arguments{
-\item{object}{A \code{bnr} object.}
+\item{object}{\code{bnr} object.}
 
 \item{...}{Unused.}
 

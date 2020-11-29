@@ -10,7 +10,7 @@
 #' @param s Surrogate outcome vector.
 #' @param X Target model matrix.
 #' @param Z Surrogate model matrix.
-#' @param L Logical vector, with as many entires as columns in the target model
+#' @param is_zero Logical vector, with as many entries as columns in the target model
 #'   matrix, indicating which columns have coefficient zero under the null.
 #' @param init Optional list of initial parameters for fitting the null model,
 #'   with one or more of the components: a0, b0, S0.
@@ -19,48 +19,104 @@
 #' @param report Report model fitting progress? Default is FALSE.
 #'
 #' @importFrom stats model.matrix pchisq resid vcov
+#' @export
 #'
 #' @return A numeric vector containing the Wald statistic, the degrees of
 #'   freedom, and a p-value.
+#'   
+#' @examples 
+#' \donttest{
+#' # Generate data.
+#' set.seed(100)
+#' n <- 1e3
+#' X <- cbind(1, rnorm(n))
+#' Z <- cbind(1, rnorm(n))
+#' data <- rBNR(X = X, Z = Z, b = c(1, 0), a = c(-1, 0), t_miss = 0.1, s_miss = 0.1)
+#' 
+#' # Test 1st coefficient.
+#' wald_test1 <- Wald.BNEM(
+#'   t = data[, 1], 
+#'   s = data[, 2], 
+#'   X = X, 
+#'   Z = Z,
+#'   is_zero = c(TRUE, FALSE)
+#' )
+#' 
+#' # Test 2nd coefficient.
+#' wald_test2 <- Wald.BNEM(
+#'   t = data[, 1], 
+#'   s = data[, 2], 
+#'   X = X, 
+#'   Z = Z,
+#'   is_zero = c(FALSE, TRUE)
+#' )
+#' }
 
-Wald.bnem = function(t,s,X,Z,L,init=NULL,maxit=100,eps=1e-8,report=F){
-  # Input check
-  if((!is.null(init))&&(!is.list(init))){stop("If initial parameter are provided, init should take the form
-                                              of a list with one or more of the elements a0, b0, S0")};
-  # Test specification
-  p = ncol(X);
-  df = sum(L);
-  if(length(L)!=p){stop("L should have one entry per column of X.")};
-  if(df==0){stop("At least 1 entry of L should be TRUE.")};
-  if(df==p){stop("At least 1 entry of L should be FALSE.")};
+Wald.BNEM <- function(
+  t, 
+  s, 
+  X, 
+  Z, 
+  is_zero, 
+  init = NULL, 
+  maxit = 100, 
+  eps = 1e-8, 
+  report = FALSE
+) {
 
-  ## Model Fitting
-  M0 = fit.bnem(t=t,s=s,X=X,Z=Z,b0=init$b0,a0=init$a0,S0=init$S0,maxit=maxit,eps=eps,report=report);
+  # Input checks.
+  CheckInit(init = init)
+  CheckTestSpec(is_zero = is_zero, p = ncol(X))
 
-  # Extract information
-  I = vcov(M0,type="Regression",inv=F);
-  # Surrogate covariates
-  q = ncol(Z);
+  # For Wald test, fit the full model.
+  fit <- Fit.BNEM(
+    t = t, 
+    s = s, 
+    X = X, 
+    Z = Z, 
+    b0 = init$b0, 
+    a0 = init$a0, 
+    sigma0 = init$sigma0, 
+    maxit = maxit, 
+    eps = eps, 
+    report = report
+  )
 
-  # Information keys
-  key0 = c(L,rep(F,q));
-  key1 = c(!L,rep(T,q));
+  # Extract information.
+  reg_info <- vcov(fit, type = "Regression", inv = FALSE)
+  
+  # Surrogate covariates.
+  q <- ncol(Z)
 
-  # Partition information
-  Ibb = I[key0,key0,drop=F];
-  Iaa = I[key1,key1,drop=F];
-  Iba = I[key0,key1,drop=F];
-  # Efficient information
-  V = SchurC(Ibb=Ibb,Iaa=Iaa,Iba=Iba);
+  # Partition regression information into the components zero under the null
+  # ('key0'), and the components unconstrained under the null ('key1').
+  key0 <- c(is_zero, rep(FALSE, q))
+  key1 <- c(!is_zero, rep(TRUE, q))
 
-  ## Test
-  # Coefficients of interest
-  U = matrix(coef(M0,type="Target")[L,"Point"],ncol=1);
-  # Statistic
-  Tw = as.numeric(matQF(X=U,A=V));
-  # P value
-  p = pchisq(q=Tw,df=df,lower.tail=F);
-  # Output
-  Out = c("Wald"=Tw,"df"=df,"p"=p);
-  return(Out);
+  # Partition information.
+  ibb <- reg_info[key0, key0, drop = FALSE]
+  iaa <- reg_info[key1, key1, drop = FALSE]
+  iba <- reg_info[key0, key1, drop = FALSE]
+  
+  # Efficient information.
+  inv_var <- SchurC(Ibb = ibb, Iaa = iaa, Iba = iba)
+
+  # Coefficients of interest.
+  beta_hat <- coef(fit, type = "Target")$Point[is_zero]
+  beta_hat <- matrix(beta_hat, ncol = 1)
+  
+  # Wald statistic.
+  stat_wald <- as.numeric(matQF(X = beta_hat, A = inv_var))
+  
+  # P value.
+  df <- sum(is_zero)
+  pval <- pchisq(q = stat_wald, df = df, lower.tail = FALSE)
+  
+  # Output.
+  out <- c(
+    "Wald" = stat_wald, 
+    "df" = df, 
+    "p" = pval
+  )
+  return(out)
 }

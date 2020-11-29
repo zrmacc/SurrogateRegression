@@ -2,12 +2,12 @@
 % Please edit documentation in R/Class.R
 \name{vcov.bnr}
 \alias{vcov.bnr}
-\title{Extract Covariance Matrix from Multivariate Regression Model}
+\title{Extract Covariance Matrix from Bivariate Normal Regression Model}
 \usage{
-\method{vcov}{bnr}(object, ..., type = "Regression", inv = F)
+\method{vcov}{bnr}(object, ..., type = "Regression", inv = FALSE)
 }
 \arguments{
-\item{object}{A \code{bnr} object.}
+\item{object}{\code{bnr} object.}
 
 \item{...}{Unused.}
 

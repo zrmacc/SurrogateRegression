@@ -3,16 +3,16 @@
 \docType{package}
 \name{Spray}
 \alias{Spray}
-\alias{Spray-package}
 \title{Spray: Surrogate Phenotype Regression Analysis}
 \description{
 This package performs estimation and inference for the parameters of a
 bivariate normal regression model in which elements of the response matrix
-are missing at random. In the case of bilateral missingness, estimation is
-performed using \code{\link{fit.bnem}}. In the case of unilaterial
-missingness, estimation is performed using \code{\link{fit.bnls}}. Inference
+are missing at random. The primary estimation function is
+\code{\link{Fit.BNR}}. In the case of bilateral missingness, estimation is
+performed using \code{\link{Fit.BNEM}}. In the case of unilaterial
+missingness, estimation is performed using \code{\link{Fit.BNLS}}. Inference
 on regression parameters for the target outcome is performed using
-\code{\link{test.bnr}}.
+\code{\link{Test.BNR}}.
 }
 \author{
 Zachary R. McCaw

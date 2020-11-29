@@ -4,7 +4,7 @@
 \alias{rBNR}
 \title{Simulate Bivariate Normal Data with Missingness}
 \usage{
-rBNR(X, Z, b, a, mt = 0, ms = 0, S)
+rBNR(X, Z, b, a, t_miss = 0, s_miss = 0, sigma = NULL)
 }
 \arguments{
 \item{X}{Target design matrix.}
@@ -15,14 +15,14 @@ rBNR(X, Z, b, a, mt = 0, ms = 0, S)
 
 \item{a}{Surrogate regression coefficient.}
 
-\item{mt}{Target missingness in [0,1].}
+\item{t_miss}{Target missingness in [0,1].}
 
-\item{ms}{Surrogate missingness in [0,1].}
+\item{s_miss}{Surrogate missingness in [0,1].}
 
-\item{S}{2x2 target-surrogate covariance matrix.}
+\item{sigma}{2x2 target-surrogate covariance matrix.}
 }
 \value{
-Numeric nx2 matrix. The first column contains the target
+Numeric Nx2 matrix. The first column contains the target
   outcome, the second contains the surrogate outcome.
 }
 \description{
@@ -30,21 +30,19 @@ Function to simulate from a bivariate normal regression model with outcomes
 missing completely at random.
 }
 \examples{
-\dontrun{
-set.seed(100);
-# Observations
-n = 1e3;
-# Target design
-X = cbind(1,matrix(rnorm(3*n),nrow=n));
-# Surrogate design
-Z = cbind(1,matrix(rnorm(3*n),nrow=n));
-# Target coefficient
-b = c(-1,0.1,-0.1,0.1);
-# Surrogate coefficient
-a = c(1,-0.1,0.1,-0.1);
-# Covariance structure
-S = matrix(c(1,0.5,0.5,1),nrow=2);
-# Data generation, target and surrogate subject to 10\% missingness
-Y = rBNR(X,Z,b,a,mt=0.1,ms=0.1,S=S);
-}
+set.seed(100)
+# Observations.
+n <- 1e3
+# Target design.
+X <- cbind(1, matrix(rnorm(3 * n), nrow = n))
+# Surrogate design.
+Z <- cbind(1, matrix(rnorm(3 * n), nrow = n))
+# Target coefficient.
+b <- c(-1, 0.1, -0.1, 0.1)
+# Surrogate coefficient.
+a <- c(1, -0.1, 0.1, -0.1)
+# Covariance structure.
+sigma <- matrix(c(1, 0.5, 0.5, 1), nrow = 2)
+# Data generation, target and surrogate subject to 10\% missingness.
+y <- rBNR(X, Z, b, a, t_miss = 0.1, s_miss = 0.1, sigma = sigma)
 }
