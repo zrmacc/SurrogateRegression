@@ -22,14 +22,15 @@ Model specification, parameter estimation, and inference on target regression co
 
 ### Compact Example
 
-In the following, target and surrogate outcome data are generated for 1000 subjects. Each outcome depends on a design matrix with an intercept and a single standard normal covariate. The true target regression coefficient is $\beta = (1, 1)'$ and the true surrogate regression coefficient is $\alpha = (-1, -1)$; 20% of target outcomes are missing, and 10% of surrogate outcomes are missing.
+In the following, target and surrogate outcome data are generated for 1000 subjects. Each outcome depends on a design matrix with an intercept and a single standard normal covariate. The true target regression coefficient is $\beta = (1, 1)'$ and the true surrogate regression coefficient is $\alpha = (-1, -1)'$; 20% of target outcomes are missing, and 10% of surrogate outcomes are missing.
 
 
 ```r
 library(SurrogateRegression)
 set.seed(100)
 
-# Observations.
+# Data generation.
+## Observations.
 n <- 1e3
 
 ## Target design matrix.
@@ -38,7 +39,7 @@ X <- cbind(1, rnorm(n))
 ## Surrogate design matrix.
 Z <- cbind(1, rnorm(n))
 
-## Outcome data
+## Outcome data.
 Y <- rBNR(
   X = X, 
   Z = Z,
