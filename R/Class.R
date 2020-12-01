@@ -1,6 +1,5 @@
 # Purpose: Class definitions for bivariate normal regression model.
 # Updated: 2020-10-25
-# TO DO: Add return statements.
 
 #' Bivariate Regression Model
 #'

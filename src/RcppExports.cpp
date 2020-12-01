@@ -8,7 +8,7 @@ using namespace Rcpp;
 
 // fitOLS
 SEXP fitOLS(const arma::colvec y, const arma::mat X);
-RcppExport SEXP _Spray_fitOLS(SEXP ySEXP, SEXP XSEXP) {
+RcppExport SEXP _SurrogateRegression_fitOLS(SEXP ySEXP, SEXP XSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -20,7 +20,7 @@ END_RCPP
 }
 // matDet
 SEXP matDet(const arma::mat A, const bool logDet);
-RcppExport SEXP _Spray_matDet(SEXP ASEXP, SEXP logDetSEXP) {
+RcppExport SEXP _SurrogateRegression_matDet(SEXP ASEXP, SEXP logDetSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -32,7 +32,7 @@ END_RCPP
 }
 // matInv
 SEXP matInv(const arma::mat A);
-RcppExport SEXP _Spray_matInv(SEXP ASEXP) {
+RcppExport SEXP _SurrogateRegression_matInv(SEXP ASEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -43,7 +43,7 @@ END_RCPP
 }
 // matIP
 SEXP matIP(const arma::mat A, const arma::mat B);
-RcppExport SEXP _Spray_matIP(SEXP ASEXP, SEXP BSEXP) {
+RcppExport SEXP _SurrogateRegression_matIP(SEXP ASEXP, SEXP BSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -55,7 +55,7 @@ END_RCPP
 }
 // MMP
 SEXP MMP(const arma::mat A, const arma::mat B);
-RcppExport SEXP _Spray_MMP(SEXP ASEXP, SEXP BSEXP) {
+RcppExport SEXP _SurrogateRegression_MMP(SEXP ASEXP, SEXP BSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -67,7 +67,7 @@ END_RCPP
 }
 // matOP
 SEXP matOP(const arma::mat A, const arma::mat B);
-RcppExport SEXP _Spray_matOP(SEXP ASEXP, SEXP BSEXP) {
+RcppExport SEXP _SurrogateRegression_matOP(SEXP ASEXP, SEXP BSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -79,7 +79,7 @@ END_RCPP
 }
 // matQF
 SEXP matQF(const arma::mat X, const arma::mat A);
-RcppExport SEXP _Spray_matQF(SEXP XSEXP, SEXP ASEXP) {
+RcppExport SEXP _SurrogateRegression_matQF(SEXP XSEXP, SEXP ASEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -91,7 +91,7 @@ END_RCPP
 }
 // SchurC
 SEXP SchurC(const arma::mat Ibb, const arma::mat Iaa, const arma::mat Iba);
-RcppExport SEXP _Spray_SchurC(SEXP IbbSEXP, SEXP IaaSEXP, SEXP IbaSEXP) {
+RcppExport SEXP _SurrogateRegression_SchurC(SEXP IbbSEXP, SEXP IaaSEXP, SEXP IbaSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -104,7 +104,7 @@ END_RCPP
 }
 // tr
 SEXP tr(const arma::mat A);
-RcppExport SEXP _Spray_tr(SEXP ASEXP) {
+RcppExport SEXP _SurrogateRegression_tr(SEXP ASEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -115,19 +115,19 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_Spray_fitOLS", (DL_FUNC) &_Spray_fitOLS, 2},
-    {"_Spray_matDet", (DL_FUNC) &_Spray_matDet, 2},
-    {"_Spray_matInv", (DL_FUNC) &_Spray_matInv, 1},
-    {"_Spray_matIP", (DL_FUNC) &_Spray_matIP, 2},
-    {"_Spray_MMP", (DL_FUNC) &_Spray_MMP, 2},
-    {"_Spray_matOP", (DL_FUNC) &_Spray_matOP, 2},
-    {"_Spray_matQF", (DL_FUNC) &_Spray_matQF, 2},
-    {"_Spray_SchurC", (DL_FUNC) &_Spray_SchurC, 3},
-    {"_Spray_tr", (DL_FUNC) &_Spray_tr, 1},
+    {"_SurrogateRegression_fitOLS", (DL_FUNC) &_SurrogateRegression_fitOLS, 2},
+    {"_SurrogateRegression_matDet", (DL_FUNC) &_SurrogateRegression_matDet, 2},
+    {"_SurrogateRegression_matInv", (DL_FUNC) &_SurrogateRegression_matInv, 1},
+    {"_SurrogateRegression_matIP", (DL_FUNC) &_SurrogateRegression_matIP, 2},
+    {"_SurrogateRegression_MMP", (DL_FUNC) &_SurrogateRegression_MMP, 2},
+    {"_SurrogateRegression_matOP", (DL_FUNC) &_SurrogateRegression_matOP, 2},
+    {"_SurrogateRegression_matQF", (DL_FUNC) &_SurrogateRegression_matQF, 2},
+    {"_SurrogateRegression_SchurC", (DL_FUNC) &_SurrogateRegression_SchurC, 3},
+    {"_SurrogateRegression_tr", (DL_FUNC) &_SurrogateRegression_tr, 1},
     {NULL, NULL, 0}
 };
 
-RcppExport void R_init_Spray(DllInfo *dll) {
+RcppExport void R_init_SurrogateRegression(DllInfo *dll) {
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
 }

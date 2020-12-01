@@ -1,6 +1,6 @@
 \documentclass{article}
 \usepackage{pdfpages}
-%\VignetteIndexEntry{Surrogate Phenotype Regression Analysis}
+%\VignetteIndexEntry{Surrogate Outcome Regression Analysis}
 
 \begin{document}
 \includepdf[pages=-, fitpaper=true]{Vignette.pdf}

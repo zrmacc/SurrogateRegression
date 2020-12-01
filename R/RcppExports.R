@@ -14,7 +14,7 @@
 #' \item{Ibb}{Information matrix for beta.}
 #' \item{Resid}{Outcome residuals.}
 fitOLS <- function(y, X) {
-    .Call(`_Spray_fitOLS`, y, X)
+    .Call(`_SurrogateRegression_fitOLS`, y, X)
 }
 
 #' Matrix Determinant
@@ -25,7 +25,7 @@ fitOLS <- function(y, X) {
 #' @param logDet Return the logarithm of the determinant? 
 #' @return Scalar. 
 matDet <- function(A, logDet = FALSE) {
-    .Call(`_Spray_matDet`, A, logDet)
+    .Call(`_SurrogateRegression_matDet`, A, logDet)
 }
 
 #' Matrix Inverse
@@ -35,7 +35,7 @@ matDet <- function(A, logDet = FALSE) {
 #' @param A Numeric matrix.
 #' @return Numeric matrix. 
 matInv <- function(A) {
-    .Call(`_Spray_matInv`, A)
+    .Call(`_SurrogateRegression_matInv`, A)
 }
 
 #' Matrix Inner Product
@@ -46,7 +46,7 @@ matInv <- function(A) {
 #' @param B Numeric matrix.
 #' @return Numeric matrix.
 matIP <- function(A, B) {
-    .Call(`_Spray_matIP`, A, B)
+    .Call(`_SurrogateRegression_matIP`, A, B)
 }
 
 #' Matrix Matrix Product
@@ -57,7 +57,7 @@ matIP <- function(A, B) {
 #' @param B Numeric matrix.
 #' @return Numeric matrix.
 MMP <- function(A, B) {
-    .Call(`_Spray_MMP`, A, B)
+    .Call(`_SurrogateRegression_MMP`, A, B)
 }
 
 #' Matrix Outer Product
@@ -68,7 +68,7 @@ MMP <- function(A, B) {
 #' @param B Numeric matrix.
 #' @return Numeric matrix.
 matOP <- function(A, B) {
-    .Call(`_Spray_matOP`, A, B)
+    .Call(`_SurrogateRegression_matOP`, A, B)
 }
 
 #' Quadratic Form
@@ -79,7 +79,7 @@ matOP <- function(A, B) {
 #' @param A Numeric matrix.
 #' @return Numeric matrix.
 matQF <- function(X, A) {
-    .Call(`_Spray_matQF`, X, A)
+    .Call(`_SurrogateRegression_matQF`, X, A)
 }
 
 #' Schur complement
@@ -91,7 +91,7 @@ matQF <- function(X, A) {
 #' @param Iba Cross information between target and nuisance parameters
 #' @return Numeric matrix. 
 SchurC <- function(Ibb, Iaa, Iba) {
-    .Call(`_Spray_SchurC`, Ibb, Iaa, Iba)
+    .Call(`_SurrogateRegression_SchurC`, Ibb, Iaa, Iba)
 }
 
 #' Matrix Trace
@@ -101,6 +101,6 @@ SchurC <- function(Ibb, Iaa, Iba) {
 #' @param A Numeric matrix.
 #' @return Scalar.
 tr <- function(A) {
-    .Call(`_Spray_tr`, A)
+    .Call(`_SurrogateRegression_tr`, A)
 }
 
