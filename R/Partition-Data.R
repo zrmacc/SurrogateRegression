@@ -37,14 +37,14 @@ PartitionData <- function(t, s, X, Z = NULL) {
   # Ensure input structures are matrices.
   t <- matrix(t, ncol = 1)
   s <- matrix(s, ncol = 1)
-  if (!is.matrix(X)) {X <- matrix(X)}
+  if (!is.matrix(X)) {X <- as.matrix(X)}
   
   # If no surrogate model matrix is provided, 
   # adopt the target model matrix.
   if (is.null(Z)) {
     Z <- X
   } else {
-    if (!is.matrix(Z)) {Z <- matrix(Z)}
+    if (!is.matrix(Z)) {Z <- as.matrix(Z)}
   }
   
   # Output structure.
