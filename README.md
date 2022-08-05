@@ -1,3 +1,12 @@
+---
+title: "README"
+author: "Zachary R. McCaw"
+date: "2022-08-05"
+output: 
+  html_document: 
+    keep_md: TRUE
+--- 
+
 # Surrogate Outcome Regression Analsyis
 
 Zachary McCaw <br>
@@ -5,7 +14,7 @@ Updated: 2022-08-05
 
 ### Description
 
-This package performs estimation and inference on a partially missing target outcome while borrowing information from a correlated surrogate outcome to increase estimation precision and improve power. The target and surrogate outcomes are jointly modeled within a bivariate outcome regression framework. Unobserved values of either outcome are regarded as missing data. Estimation in the presence of bilateral outcome missingness is performed via an expectation conditional maximization algorithm. A flexible association test is provided for evaluating hypotheses about the target regression parameters. The method and its application to eQTL mapping are described in: [Cross-tissue eQTL mapping in the presence of missing data via surrogate outcome analysis](https://www.biorxiv.org/content/10.1101/2020.11.29.403063v1). Also see:
+This package performs estimation and inference on a partially missing target outcome (e.g. gene expression in an inaccessible tissue) while borrowing information from a correlated surrogate outcome (e.g. gene expression in an accessible tissue). Rather than regarding the surrogate outcome as a proxy for the target outcome, the target and surrogate outcomes are jointly modeled within a bivariate regression framework. Unobserved values of either outcome are treated as missing data. In contrast to imputation-based inference, no assumptions are required regarding the relationship between the target and surrogate outcomes. However, in order for surrogate inference to improve efficiency, the target and surrogate outcomes must be correlated, and the target outcome must be partially missing. Estimation in the presence of bilateral outcome missingness is performed via an expectation conditional maximization either ([ECME](https://www.jstor.org/stable/2337067)) algorithm. In the case of unilateral target missingness, estimation is performed using an accelerated least squares procedure. A flexible association test is provided for evaluating hypotheses about the target regression parameters. For additional details, see: McCaw ZR, Gaynor SM, Sun R, Lin X: [Leveraging a surrogate outcome to improve inference on a partially missing target outcome](https://onlinelibrary.wiley.com/doi/10.1111/biom.13629) ([bioRxiv](https://www.biorxiv.org/content/10.1101/2020.11.29.403063v4)). Also see:
 
 * [MGMM](https://github.com/zrmacc/MGMM#missingness-aware-gaussian-mixture-models) for estimation of Gaussian Mixture Models in the presence of missing data. 
 
