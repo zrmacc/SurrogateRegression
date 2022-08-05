@@ -1,12 +1,3 @@
----
-title: "README"
-author: "Zachary R. McCaw"
-date: "2022-08-05"
-output: 
-  html_document: 
-    keep_md: TRUE
---- 
-
 # Surrogate Outcome Regression Analsyis
 
 Zachary McCaw <br>
