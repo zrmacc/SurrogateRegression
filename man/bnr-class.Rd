@@ -16,6 +16,8 @@ Bivariate Regression Model
 
 \item{\code{Covariance.tab}}{Table of covariance parameters.}
 
+\item{\code{Method}}{Method used for estimation.}
+
 \item{\code{Regression.info}}{Information for regression coefficients.}
 
 \item{\code{Regression.tab}}{Table of regression coefficients.}

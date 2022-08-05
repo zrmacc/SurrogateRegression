@@ -1,29 +1,28 @@
 # Purpose: Tabulate regression and covariance estimates and standard errors.
-# Updated: 2020-11-28.
+# Updated: 2022-08-05
+
 
 #' Tabulate Regression Coefficients
 #'
 #' @param point Point estimates.
 #' @param info Information matrix.
 #' @param sig Significance level.
-#'
 #' @return Data.table containing the point estimate, standard error, confidence
 #'   interval, and Wald p-value.
-
 RegTab <- function(point, info, sig = 0.05) {
   
   # Standard errors.
   se <- sqrt(diag(matInv(info)))
   
   # Critical value.
-  z <- qnorm(p = 1 - (sig / 2))
+  z <- stats::qnorm(p = 1 - (sig / 2))
   
   # CIs.
   lower <- point - z * se
   upper <- point + z * se
   
   # P-values.
-  p <- 2 * pnorm(q = abs(point / se), lower.tail = FALSE)
+  p <- 2 * stats::pnorm(q = abs(point / se), lower.tail = FALSE)
   
   # Output.
   out <- data.frame(
@@ -41,19 +40,18 @@ RegTab <- function(point, info, sig = 0.05) {
 
 # -----------------------------------------------------------------------------
 
+
 #' Tabulate Covariance Parameters
 #'
 #' @param point Point estimates.
 #' @param info Information matrix.
 #' @param sig Significance level.
-#'
 #' @return Data.table containing the point estimate, standard error, and
 #'   confidence interval.
-
 CovTab <- function(point, info, sig = 0.05) {
   
   # Critical value.
-  z <- qnorm(p = 1 - (sig / 2))
+  z <- stats::qnorm(p = 1 - (sig / 2))
   
   # Inverse information.
   infoi <- matInv(info)
@@ -95,19 +93,19 @@ CovTab <- function(point, info, sig = 0.05) {
 
 # -----------------------------------------------------------------------------
 
+
 #' Format Output
 #' 
 #' @param data_part List of partitioned data. See \code{\link{PartitionData}}.
+#' @param method Estimation method.
 #' @param b Final target regression parameter.
 #' @param a Final surrogate regression parameter.
 #' @param sigma Final target-surrogate covariance matrix.
 #' @param sig Significance level.
 #' @return Object of class 'bnr'.
-#' 
-#' @importFrom methods new
-
 FormatOutput <- function(
   data_part,
+  method,
   b,
   a,
   sigma,
@@ -157,11 +155,12 @@ FormatOutput <- function(
   rownames(resid_mat) <- seq_len(nrow(resid_mat))
   
   # Output
-  out <- new(
+  out <- methods::new(
     Class = "bnr",
     Covariance = sigma,
     Covariance.info = cov_info,
     Covariance.tab = cov_tab,
+    Method = method,
     Regression.info = reg_info,
     Regression.tab = reg_tab,
     Residuals = resid_mat

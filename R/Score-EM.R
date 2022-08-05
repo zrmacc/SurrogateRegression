@@ -1,5 +1,6 @@
 # Purpose: Score test for bivariate normal regression via EM.
-# Updated: 2020-11-28.
+# Updated: 2022-08-05
+
 
 #' Score Test via Expectation Maximization.
 #'
@@ -16,42 +17,9 @@
 #' @param maxit Maximum number of parameter updates.
 #' @param eps Minimum acceptable improvement in log likelihood.
 #' @param report Report model fitting progress? Default is FALSE.
-#'
-#' @importFrom stats model.matrix pchisq resid vcov
-#' @export
-#'
 #' @return A numeric vector containing the score statistic, the degrees of
 #'   freedom, and a p-value.
-#'   
-#' @examples 
-#' \donttest{
-#' # Generate data.
-#' set.seed(100)
-#' n <- 1e3
-#' X <- cbind(1, rnorm(n))
-#' Z <- cbind(1, rnorm(n))
-#' data <- rBNR(X = X, Z = Z, b = c(1, 0), a = c(-1, 0), t_miss = 0.1, s_miss = 0.1)
-#' 
-#' # Test 1st coefficient.
-#' score_test1 <- Score.BNEM(
-#'   t = data[, 1], 
-#'   s = data[, 2], 
-#'   X = X, 
-#'   Z = Z,
-#'   is_zero = c(TRUE, FALSE)
-#' )
-#' 
-#' # Test 2nd coefficient.
-#' score_test2 <- Score.BNEM(
-#'   t = data[, 1], 
-#'   s = data[, 2], 
-#'   X = X, 
-#'   Z = Z,
-#'   is_zero = c(FALSE, TRUE)
-#' )
-#' }
-
-Score.BNEM <- function(
+ScoreBNEM <- function(
   t, 
   s, 
   X, 
@@ -73,7 +41,7 @@ Score.BNEM <- function(
   X.null <- X[, !is_zero, drop = FALSE]
   
   # Fit null model
-  fit0 <- Fit.BNEM(
+  fit0 <- FitBNEM(
     t = t, 
     s = s, 
     X = X.null, 
@@ -89,12 +57,12 @@ Score.BNEM <- function(
   # -----------------------------------
 
   # Extract covariance.
-  sigma <- vcov(fit0, type = "Outcome", inv = FALSE)
+  sigma <- stats::vcov(fit0, type = "Outcome", inv = FALSE)
   sigma_inv <- matInv(sigma)
   
   # Extract residuals.
-  t_resid <- matrix(resid(fit0, type = "Target"), ncol = 1)
-  s_resid <- matrix(resid(fit0, type = "Surrogate"), ncol = 1)
+  t_resid <- matrix(stats::resid(fit0, type = "Target"), ncol = 1)
+  s_resid <- matrix(stats::resid(fit0, type = "Surrogate"), ncol = 1)
 
   # Partition data.
   part_data_null <- PartitionData(t = t_resid, s = s_resid, X = X.null, Z = Z)
@@ -153,7 +121,7 @@ Score.BNEM <- function(
   # -----------------------------------
   
   # Surrogate information.
-  iaa <- vcov(fit0, type = "Regression")
+  iaa <- stats::vcov(fit0, type = "Regression")
   
   # -----------------------------------
 
@@ -190,7 +158,7 @@ Score.BNEM <- function(
   test_stat <- as.numeric(matQF(X = score, A = matInv(score_var)))
   
   # P-value.
-  pval <- pchisq(q = test_stat, df = df, lower.tail = FALSE)
+  pval <- stats::pchisq(q = test_stat, df = df, lower.tail = FALSE)
   
   # Output.
   out <- c(

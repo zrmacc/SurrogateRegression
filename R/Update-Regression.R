@@ -1,5 +1,6 @@
 # Purpose: GLS update for regression parameters.
-# Updated: 2020-11-28.
+# Updated: 2022-08-05
+
 
 #' Regression Update
 #'
@@ -7,7 +8,6 @@
 #' @param sigma Target-surrogate covariance matrix.
 #' @return List containing the generalized least squares estimates of beta and
 #'   alpha.
-
 RegUpdate <- function(data_part, sigma) {
   
   # Dimensions.
@@ -22,8 +22,7 @@ RegUpdate <- function(data_part, sigma) {
   sigma_inv <- matInv(sigma)
 
   # Information matrix for gamma = c(beta, alpha).
-  reg_info <- RegInfo(data_part = data_part, sigma = sigma)
-  igg <- rbind(cbind(reg_info$Ibb, reg_info$Iba), cbind(t(reg_info$Iba), reg_info$Iaa))
+  igg <- RegInfo(data_part = data_part, sigma = sigma, as_matrix = TRUE)
   iggi <- matInv(igg)
 
   # Calculate cross products.
@@ -47,7 +46,8 @@ RegUpdate <- function(data_part, sigma) {
   }
 
   # GLS estimate of gamma.
-  gls <- as.numeric(MMP(iggi, rbind(b, a)))
+  g <- c(b, a)
+  gls <- as.numeric(solve(igg, g))
 
   # Output.
   out <- list(

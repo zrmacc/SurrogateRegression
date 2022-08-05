@@ -1,5 +1,5 @@
 # Purpose: Wald test for bivariate normal regression via EM.
-# Updated: 19/08/02
+# Updated: 2022-08-05
 
 #' Wald Test via Expectation Maximization.
 #'
@@ -17,42 +17,9 @@
 #' @param maxit Maximum number of parameter updates.
 #' @param eps Minimum acceptable improvement in log likelihood.
 #' @param report Report model fitting progress? Default is FALSE.
-#'
-#' @importFrom stats model.matrix pchisq resid vcov
-#' @export
-#'
 #' @return A numeric vector containing the Wald statistic, the degrees of
 #'   freedom, and a p-value.
-#'   
-#' @examples 
-#' \donttest{
-#' # Generate data.
-#' set.seed(100)
-#' n <- 1e3
-#' X <- cbind(1, rnorm(n))
-#' Z <- cbind(1, rnorm(n))
-#' data <- rBNR(X = X, Z = Z, b = c(1, 0), a = c(-1, 0), t_miss = 0.1, s_miss = 0.1)
-#' 
-#' # Test 1st coefficient.
-#' wald_test1 <- Wald.BNEM(
-#'   t = data[, 1], 
-#'   s = data[, 2], 
-#'   X = X, 
-#'   Z = Z,
-#'   is_zero = c(TRUE, FALSE)
-#' )
-#' 
-#' # Test 2nd coefficient.
-#' wald_test2 <- Wald.BNEM(
-#'   t = data[, 1], 
-#'   s = data[, 2], 
-#'   X = X, 
-#'   Z = Z,
-#'   is_zero = c(FALSE, TRUE)
-#' )
-#' }
-
-Wald.BNEM <- function(
+WaldBNEM <- function(
   t, 
   s, 
   X, 
@@ -67,9 +34,10 @@ Wald.BNEM <- function(
   # Input checks.
   CheckInit(init = init)
   CheckTestSpec(is_zero = is_zero, p = ncol(X))
+  if (is.null(Z)) {Z = X}
 
   # For Wald test, fit the full model.
-  fit <- Fit.BNEM(
+  fit <- FitBNEM(
     t = t, 
     s = s, 
     X = X, 
@@ -83,7 +51,7 @@ Wald.BNEM <- function(
   )
 
   # Extract information.
-  reg_info <- vcov(fit, type = "Regression", inv = FALSE)
+  reg_info <- stats::vcov(fit, type = "Regression", inv = FALSE)
   
   # Surrogate covariates.
   q <- ncol(Z)
@@ -102,7 +70,7 @@ Wald.BNEM <- function(
   inv_var <- SchurC(Ibb = ibb, Iaa = iaa, Iba = iba)
 
   # Coefficients of interest.
-  beta_hat <- coef(fit, type = "Target")$Point[is_zero]
+  beta_hat <- stats::coef(fit, type = "Target")$Point[is_zero]
   beta_hat <- matrix(beta_hat, ncol = 1)
   
   # Wald statistic.
@@ -110,7 +78,7 @@ Wald.BNEM <- function(
   
   # P value.
   df <- sum(is_zero)
-  pval <- pchisq(q = stat_wald, df = df, lower.tail = FALSE)
+  pval <- stats::pchisq(q = stat_wald, df = df, lower.tail = FALSE)
   
   # Output.
   out <- c(

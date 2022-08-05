@@ -1,7 +1,7 @@
 # Surrogate Outcome Regression Analsyis
 
 Zachary McCaw <br>
-Updated: 2020-12-01
+Updated: 2022-08-05
 
 ### Description
 
@@ -50,7 +50,7 @@ Y <- rBNR(
   )
 
 # Fit bivariate outcome model.
-fit <- Fit.BNR(
+fit <- FitBNR(
   t = Y[, "Target"],
   s = Y[, "Surrogate"],
   X = X,
@@ -59,11 +59,11 @@ fit <- Fit.BNR(
 ```
 
 ```
-## Objective increment:  0.0982 
-## Objective increment:  0.00172 
-## Objective increment:  4.75e-05 
-## Objective increment:  1.69e-06 
-## Objective increment:  6.54e-08 
+## Objective increment:  0.166 
+## Objective increment:  0.00497 
+## Objective increment:  0.000183 
+## Objective increment:  7.15e-06 
+## Objective increment:  2.85e-07 
 ## 4 update(s) performed before tolerance limit.
 ```
 
@@ -73,13 +73,13 @@ show(fit)
 
 ```
 ##     Outcome Coefficient  Point     SE      L      U         p
-## 1    Target          x1  1.030 0.0359  0.962  1.100 8.55e-182
-## 2    Target          x2  0.970 0.0351  0.901  1.040 4.04e-168
-## 3 Surrogate          z1 -0.967 0.0334 -1.030 -0.901 6.56e-184
-## 4 Surrogate          z2 -0.991 0.0339 -1.060 -0.924 8.90e-188
+## 1    Target          x1  0.961 0.0368  0.889  1.030 2.10e-150
+## 2    Target          x2  0.952 0.0360  0.882  1.020 1.40e-154
+## 3 Surrogate          z1 -1.020 0.0318 -1.080 -0.954 9.53e-225
+## 4 Surrogate          z2 -1.100 0.0321 -1.160 -1.040 1.26e-258
 ## 
-##         Covariance  Point     SE       L      U
-## 1           Target 1.0300 0.0516  0.9360 1.1400
-## 2 Target-Surrogate 0.0163 0.0385 -0.0222 0.0548
-## 3        Surrogate 1.0100 0.0474  0.9170 1.1000
+##         Covariance    Point     SE       L      U
+## 1           Target  1.08000 0.0542  0.9820 1.2000
+## 2 Target-Surrogate -0.00478 0.0375 -0.0423 0.0327
+## 3        Surrogate  0.90800 0.0428  0.8280 0.9960
 ```

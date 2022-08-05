@@ -1,5 +1,6 @@
 # Purpose: Fitting procedure for bivariate normal regression via LS
-# Updated: 2020-11-28.
+# Updated: 2022-08-05
+
 
 #' Fit Bivariate Normal Regression Model via Least Squares
 #'
@@ -17,49 +18,27 @@
 #'   regression coefficients, the target-surrogate covariance matrix, the
 #'   information matrices for the regression and covariance parameters, and the
 #'   residuals.
-#'
-#' @importFrom stats coef pnorm qnorm resid
-#' @export
-#' 
-#' @examples 
-#' \donttest{
-#' set.seed(100)
-#' n <- 1e3
-#' X <- rnorm(n)
-#' data <- rBNR(X = X, Z = X, b = 1, a = -1, t_miss = 0.1, s_miss = 0.0)
-#' t <- data[, 1]
-#' s <- data[, 2]
-#' 
-#' # Model fit.
-#' fit_bnls <- Fit.BNLS(
-#'   t = t,
-#'   s = s,
-#'   X = X,
-#'   sig = 0.05
-#' )
-#' }
-
-Fit.BNLS <- function(t, s, X, sig = 0.05) {
+FitBNLS <- function(t, s, X, sig = 0.05) {
   
   # Partition subjects.
   data_part <- PartitionData(t, s, X)
   q <- data_part$Dims$q
 
   # Stage 1 regression.
-  fit.1 <- fitOLS(
+  fit_1 <- fitOLS(
     y = data_part$Orig$s, 
     X = data_part$Orig$X
   )
-  alpha <- fit.1$Beta
-  ss_cov <- fit.1$V
-  rm(fit.1)
+  alpha <- fit_1$Beta
+  ss_cov <- fit_1$V
+  rm(fit_1)
 
   # Stage 2 regression.
   Z0 <- cbind(data_part$Complete$s0, data_part$Complete$X0)
-  fit.2 <- fitOLS(y = data_part$Complete$t0, X = Z0)
-  zeta <- fit.2$Beta
-  tt_cov_inv <- fit.2$V
-  rm(fit.2)
+  fit_2 <- fitOLS(y = data_part$Complete$t0, X = Z0)
+  zeta <- fit_2$Beta
+  tt_cov_inv <- fit_2$V
+  rm(fit_2)
 
   # Recover original parameters.
   delta <- zeta[1]
@@ -77,6 +56,7 @@ Fit.BNLS <- function(t, s, X, sig = 0.05) {
   # Output.
   out <- FormatOutput(
     data_part = data_part,
+    method = "LS",
     b = beta,
     a = alpha,
     sigma = sigma,

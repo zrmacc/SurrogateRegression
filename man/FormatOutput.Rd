@@ -4,10 +4,12 @@
 \alias{FormatOutput}
 \title{Format Output}
 \usage{
-FormatOutput(data_part, b, a, sigma, sig)
+FormatOutput(data_part, method, b, a, sigma, sig)
 }
 \arguments{
 \item{data_part}{List of partitioned data. See \code{\link{PartitionData}}.}
+
+\item{method}{Estimation method.}
 
 \item{b}{Final target regression parameter.}
 

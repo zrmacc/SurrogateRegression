@@ -8,7 +8,6 @@
 #' @param as_matrix Return as an information matrix? If FALSE, returns a list.
 #' @return List containing the information matrix for beta (Ibb), the
 #'   information matrix for alpha (Iaa), and the cross information (Iba).
-
 RegInfo <- function(data_part, sigma, as_matrix = FALSE) {
   
   # Dimensions.

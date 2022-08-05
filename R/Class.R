@@ -1,11 +1,13 @@
 # Purpose: Class definitions for bivariate normal regression model.
-# Updated: 2020-10-25
+# Updated: 2022-08-05
+
 
 #' Bivariate Regression Model
 #'
 #' @slot Covariance Residual covariance matrix.
 #' @slot Covariance.info Information for covariance parameters.
 #' @slot Covariance.tab Table of covariance parameters.
+#' @slot Method Method used for estimation.
 #' @slot Regression.info Information for regression coefficients.
 #' @slot Regression.tab Table of regression coefficients.
 #' @slot Residuals Outcome residuals.
@@ -16,6 +18,7 @@ setClass(Class = "bnr", representation = representation(
   Covariance = "matrix",
   Covariance.info = "matrix",
   Covariance.tab = "data.frame",
+  Method = "character",
   Regression.info = "matrix",
   Regression.tab = "data.frame",
   Residuals = "matrix"
@@ -85,7 +88,6 @@ setMethod(
 #' @param ... Unused.
 #' @param type Either Target or Surrogate.
 #' @export
-
 coef.bnr <- function(object, ..., type = NULL) {
   out <- object@Regression.tab
   if (!is.null(type)) {
@@ -110,7 +112,6 @@ coef.bnr <- function(object, ..., type = NULL) {
 #' @param ... Unused.
 #' @param type Either Target or Surrogate.
 #' @export
-
 residuals.bnr <- function(object, ..., type = NULL) {
   out <- NULL
   if (is.null(type)) {
@@ -145,7 +146,6 @@ residuals.bnr <- function(object, ..., type = NULL) {
 #'   "Regression".
 #' @param inv Invert the covariance matrix? Default is FALSE.
 #' @export
-
 vcov.bnr <- function(object, ..., type = "Regression", inv = FALSE) {
   choices <- c("Covariance", "Outcome", "Regression")
   if (!(type %in% choices)) {

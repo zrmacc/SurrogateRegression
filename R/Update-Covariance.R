@@ -1,5 +1,6 @@
 # Purpose: ECM update for covariance parameters.
-# Updated: 2020-11-28.
+# Updated: 2022-08-05
+
 
 #' Covariate Update
 #'
@@ -10,7 +11,6 @@
 #' @param a1 Current surrogate regression coefficient.
 #' @param sigma0 Initial target-surrogate covariance matrix.
 #' @return ECM update of the target-surrogate covariance matrix.
-
 CovUpdate <- function(data_part, b0, a0, b1, a1, sigma0) {
   
   # Dimensions.
@@ -20,10 +20,10 @@ CovUpdate <- function(data_part, b0, a0, b1, a1, sigma0) {
   n2 <- data_part$Dims$n2
   
   # Structure as matrices.
-  b0 <- matrix(b0, ncol = 1)
-  a0 <- matrix(a0, ncol = 1)
-  b1 <- matrix(b1, ncol = 1)
-  a1 <- matrix(a1, ncol = 1)
+  b0 <- as.matrix(b0, ncol = 1)
+  a0 <- as.matrix(a0, ncol = 1)
+  b1 <- as.matrix(b1, ncol = 1)
+  a1 <- as.matrix(a1, ncol = 1)
   
   # Inverse covariance matrix.
   sigma_inv0 <- matInv(sigma0)

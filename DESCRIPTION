@@ -1,7 +1,7 @@
 Package: SurrogateRegression
 Title: Surrogate Outcome Regression Analysis
-Date: 2020-12-01
-Version: 0.5.0
+Date: 2022-08-05
+Version: 0.6.0
 Authors@R: 
     person(given = "Zachary",
            family = "McCaw",
@@ -9,24 +9,22 @@ Authors@R:
            email = "zmccaw@alumni.harvard.edu",
            comment = c(ORCID = "0000-0002-2006-9828")
            )
-Description: Performs estimation and inference on a partially missing target outcome while borrowing information from a correlated surrogate outcome to increase estimation precision and improve power. The target and surrogate outcomes are jointly modeled within a bivariate outcome regression framework. Unobserved values of either outcome are regarded as missing data. Estimation in the presence of bilateral outcome missingness is performed via an expectation conditional maximization algorithm. A flexible association test is provided for evaluating hypotheses about the target regression parameters. See McCaw ZR, Gaynor SM, Sun R, Lin X; “Cross-tissue eQTL mapping in the presence of missing data via surrogate outcome analysis” <doi:10.1101/2020.11.29.403063>.
+Description: Performs estimation and inference on a partially missing target outcome (e.g. gene expression in an inaccessible tissue) while borrowing information from a correlated surrogate outcome (e.g. gene expression in an accessible tissue). Rather than regarding the surrogate outcome as a proxy for the target outcome, this package jointly models the target and surrogate outcomes within a bivariate regression framework. Unobserved values of either outcome are treated as missing data. In contrast to imputation-based inference, no assumptions are required regarding the relationship between the target and surrogate outcomes. Estimation in the presence of bilateral outcome missingness is performed via an expectation conditional maximization either algorithm. In the case of unilateral target missingness, estimation is performed using an accelerated least squares procedure. A flexible association test is provided for evaluating hypotheses about the target regression parameters. For additional details, see: McCaw ZR, Gaynor SM, Sun R, Lin X: "Leveraging a surrogate outcome to improve inference on a partially missing target outcome" <doi:10.1111/biom.13629>.
 Depends: R (>= 3.4.0)
 License: GPL-3
 Encoding: UTF-8
-LazyData: true
 LinkingTo:
 	Rcpp,
 	RcppArmadillo
 Imports:
 	methods,
-	mvnfast,
-	plyr,
 	Rcpp,
 	stats
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Suggests: 
     testthat (>= 3.0.0),
     knitr,
-    rmarkdown
+    rmarkdown,
+    withr
 VignetteBuilder: knitr
 Config/testthat/edition: 3

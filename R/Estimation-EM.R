@@ -1,5 +1,5 @@
 # Purpose: Fitting procedure for bivariate normal regression via EM
-# Updated: 2020-11-18.
+# Updated: 2022-08-05
 
 # -----------------------------------------------------------------------------
 # Initialization.
@@ -12,9 +12,6 @@
 #' @param a0 Initial surrogate regression coefficient.
 #' @param sigma0 Initial covariance matrix.
 #' @return List containing initial values of beta, alpha, sigma.
-#' 
-#' @importFrom stats var
-
 ParamInit <- function(data_part, b0, a0, sigma0) {
  
   # Dimensions.
@@ -32,7 +29,7 @@ ParamInit <- function(data_part, b0, a0, sigma0) {
     A <- array(0, dim = c(q, q))
     b <- array(0, dim = c(q, 1))
     
-    ## Contribution of complete cases.
+    # Contribution of complete cases.
     if (n0 > 0) {
       X0 <- data_part$Complete$X0
       t0 <- data_part$Complete$t0
@@ -40,7 +37,7 @@ ParamInit <- function(data_part, b0, a0, sigma0) {
       b <- b + matIP(X0, t0)
     }
     
-    ## Contribution of surrogate missingness.
+    # Contribution of surrogate missingness.
     if (n2 > 0) {
       X2 <- data_part$SMiss$X2
       t2 <- data_part$SMiss$t2
@@ -61,7 +58,7 @@ ParamInit <- function(data_part, b0, a0, sigma0) {
     A <- array(0, dim = c(r, r))
     b <- array(0, dim = c(r, 1))
     
-    ## Contribution of complete cases.
+    # Contribution of complete cases.
     if (n0 > 0) {
       Z0 <- data_part$Complete$Z0
       s0 <- data_part$Complete$s0
@@ -69,18 +66,22 @@ ParamInit <- function(data_part, b0, a0, sigma0) {
       b <- b + matIP(Z0, s0)
     }
     
-    ## Contribution of target missingness.
+    # Contribution of target missingness.
     if (n1 > 0) {
       Z1 <- data_part$TMiss$Z1
       s1 <- data_part$TMiss$s1
       A <- A + matIP(Z1, Z1)
       b <- b + matIP(Z1, s1)
     }
+
     out$a <- solve(A, b)
     rm(A, b)
+
   } else {
+
     out$a <- a0
     rm(a0)
+
   }
   
   # -----------------------------------
@@ -88,20 +89,25 @@ ParamInit <- function(data_part, b0, a0, sigma0) {
   # Initialize sigma.
   if (is.null(sigma0)) {
     
-    ## Only complete cases can contribute to initiation of sigma.
+    # Only complete cases can contribute to initiation of sigma.
     if (n0 > 0) {
       E0 <- cbind(t0 - MMP(X0, out$b), s0 - MMP(Z0, out$a))
       out$sigma <- matIP(E0, E0) / n0
       rm(E0)
     } else {
+  
+      # If no complete cases are present, initialize to a diagonal matrix.
       out$sigma <- diag(
-        var(t0 - MMP(X0, out$b)),
-        var(s0 - MMP(Z0, out$a))
+        stats::var(t0 - MMP(X0, out$b)),
+        stats::var(s0 - MMP(Z0, out$a))
       )
+
     }
   } else {
+
     out$sigma <- sigma0
     rm(sigma0)
+
   }
   
   # Output.
@@ -120,7 +126,6 @@ ParamInit <- function(data_part, b0, a0, sigma0) {
 #' 
 #' @return List containing updated values for beta 'b', alpha 'a', 'sigma', the
 #'   log likelihood 'loglik', and the change in log likelihood 'delta'.
-
 UpdateEM <- function(
   data_part,
   b0,
@@ -173,7 +178,6 @@ UpdateEM <- function(
 #' @param maxit Maximum number of parameter updates.
 #' @param eps Minimum acceptable improvement in log likelihood.
 #' @param report Report fitting progress?
-
 IterUpdate <- function(
   theta0,
   update,
@@ -215,7 +219,9 @@ IterUpdate <- function(
   return(theta0)
 }
 
+
 # -----------------------------------------------------------------------------
+
 
 #' Fit Bivariate Normal Regression Model via Expectation Maximization.
 #'
@@ -243,29 +249,7 @@ IterUpdate <- function(
 #'   regression coefficients, the target-surrogate covariance matrix, the
 #'   information matrices for the regression and covariance parameters, and the
 #'   residuals.
-#'   
-#' @importFrom methods new
-#' @importFrom stats coef pnorm qnorm resid
-#' @export
-#' 
-#' @examples 
-#' \donttest{
-#' set.seed(100)
-#' n <- 1e3
-#' X <- rnorm(n)
-#' Z <- rnorm(n)
-#' data <- rBNR(X = X, Z = Z, b = 1, a = -1, t_miss = 0.1, s_miss = 0.1)
-#' 
-#' # Log likelihood.
-#' fit_bnem <- Fit.BNEM(
-#'   t = data[, 1],
-#'   s = data[, 2],
-#'   X = X,
-#'   Z = Z
-#' )
-#' }
-
-Fit.BNEM <- function(
+FitBNEM <- function(
   t, 
   s, 
   X, 
@@ -310,6 +294,7 @@ Fit.BNEM <- function(
   # Output
   out <- FormatOutput(
     data_part = data_part,
+    method = "EM",
     b = theta1$b,
     a = theta1$a,
     sigma = theta1$sigma,

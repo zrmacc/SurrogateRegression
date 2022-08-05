@@ -1,5 +1,3 @@
-library(testthat)
-
 test_that("Data partitioning.", {
   
   # Case 1: Complete data.

@@ -4,7 +4,16 @@
 \alias{rBNR}
 \title{Simulate Bivariate Normal Data with Missingness}
 \usage{
-rBNR(X, Z, b, a, t_miss = 0, s_miss = 0, sigma = NULL)
+rBNR(
+  X,
+  Z,
+  b,
+  a,
+  t_miss = 0,
+  s_miss = 0,
+  sigma = NULL,
+  include_residuals = TRUE
+)
 }
 \arguments{
 \item{X}{Target design matrix.}
@@ -20,6 +29,8 @@ rBNR(X, Z, b, a, t_miss = 0, s_miss = 0, sigma = NULL)
 \item{s_miss}{Surrogate missingness in [0,1].}
 
 \item{sigma}{2x2 target-surrogate covariance matrix.}
+
+\item{include_residuals}{Include the residual? Default: TRUE.}
 }
 \value{
 Numeric Nx2 matrix. The first column contains the target

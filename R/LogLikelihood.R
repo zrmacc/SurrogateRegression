@@ -1,5 +1,5 @@
 # Purpose: Function to calculate the observed data log likelihood.
-# Updated: 2020-11-28
+# Updated: 2022-08-04
 
 #' Observed Data Log Likelihood
 #'
@@ -7,14 +7,12 @@
 #' @param b Target regression coefficient.
 #' @param a Surrogate regression coefficient.
 #' @param sigma Target-surrogate covariance matrix.
-#'
 #' @return Observed data log likelihood.
-
 ObsLogLik <- function(data_part, b, a, sigma) {
   
   # Ensure beta and alpha are matrices.
-  b <- matrix(b, ncol = 1)
-  a <- matrix(a, ncol = 1)
+  b <- as.matrix(b, ncol = 1)
+  a <- as.matrix(a, ncol = 1)
   
   # Dimensions.
   n0 <- data_part$Dims$n0

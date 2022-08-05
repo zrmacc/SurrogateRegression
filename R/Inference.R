@@ -1,10 +1,10 @@
 # Purpose: Master testing function for bivariate normal regression
-# Updated: 2020-11-28.
+# Updated: 2020-11-28
+
 
 #' Check Initiation
 #' 
 #' @param init Optional list of initial parameters for fitting the null model.
-
 CheckInit <- function(init) {
  if (!is.null(init)) {
    if ((!is.list(init)) || 
@@ -21,7 +21,6 @@ CheckInit <- function(init) {
 #' @param is_zero Logical vector, with as many entires as columns in the target model
 #'   matrix, indicating which columns have coefficient zero under the null.
 #' @param p Number of columns for the target model matrix.
-
 CheckTestSpec <- function(is_zero, p) {
   
   # Degrees of freedom.
@@ -56,15 +55,12 @@ CheckTestSpec <- function(is_zero, p) {
 #'   null.
 #' @param test Either Score or Wald. Only Wald is available for LS.
 #' @param ... Additional arguments accepted if fitting via EM. See
-#'   \code{\link{Fit.BNEM}}.
-#'
-#' @importFrom stats model.matrix pchisq resid vcov
-#' @export
-#'
+#'   \code{\link{FitBNEM}}.
 #' @return A numeric vector containing the test statistic, the degrees of
 #'   freedom, and a p-value.
-#'
+#' @export
 #' @examples
+#' \donttest{
 #' # Generate data.
 #' set.seed(100)
 #' n <- 1e3
@@ -73,7 +69,7 @@ CheckTestSpec <- function(is_zero, p) {
 #' data <- rBNR(X = X, Z = Z, b = c(1, 0), a = c(-1, 0), t_miss = 0.1, s_miss = 0.1)
 #' 
 #' # Test 1st coefficient.
-#' wald_test1 <- Test.BNR(
+#' wald_test1 <- TestBNR(
 #'   t = data[, 1], 
 #'   s = data[, 2], 
 #'   X = X, 
@@ -82,7 +78,7 @@ CheckTestSpec <- function(is_zero, p) {
 #'   test = "Wald"
 #' )
 #' 
-#' score_test1 <- Test.BNR(
+#' score_test1 <- TestBNR(
 #'   t = data[, 1], 
 #'   s = data[, 2], 
 #'   X = X, 
@@ -92,7 +88,7 @@ CheckTestSpec <- function(is_zero, p) {
 #' )
 #' 
 #' # Test 2nd coefficient.
-#' wald_test2 <- Test.BNR(
+#' wald_test2 <- TestBNR(
 #'   t = data[, 1], 
 #'   s = data[, 2], 
 #'   X = X, 
@@ -101,7 +97,7 @@ CheckTestSpec <- function(is_zero, p) {
 #'   test = "Wald"
 #' )
 #' 
-#' score_test2 <- Test.BNR(
+#' score_test2 <- TestBNR(
 #'   t = data[, 1], 
 #'   s = data[, 2], 
 #'   X = X, 
@@ -109,8 +105,9 @@ CheckTestSpec <- function(is_zero, p) {
 #'   is_zero = c(FALSE, TRUE),
 #'   test = "Score"
 #' )
+#' }
 
-Test.BNR <- function(
+TestBNR <- function(
   t, 
   s, 
   X, 
@@ -137,14 +134,14 @@ Test.BNR <- function(
   # If missingness occurs in s, apply EM algorithm.
   if (apply_em) {
     if (test == "Score") {
-      out <- Score.BNEM(t = t, s = s, X = X, Z = Z, is_zero = is_zero, ...)
+      out <- ScoreBNEM(t = t, s = s, X = X, Z = Z, is_zero = is_zero, ...)
     } else {
-      out <- Wald.BNEM(t = t, s = s, X = X, Z = Z, is_zero = is_zero, ...)
+      out <- WaldBNEM(t = t, s = s, X = X, Z = Z, is_zero = is_zero, ...)
     }
   } else {
     
     # Otherwise, apply the least squares procedure.
-    out <- Wald.BNLS(t = t, s = s, X = X, is_zero = is_zero)
+    out <- WaldBNLS(t = t, s = s, X = X, is_zero = is_zero)
   }
   # Output
   return(out)
