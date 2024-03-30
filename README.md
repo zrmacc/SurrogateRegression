@@ -3,6 +3,8 @@
 Zachary McCaw <br>
 Updated: 2024-03-30
 
+[![DOI](https://zenodo.org/badge/128422935.svg)](https://zenodo.org/doi/10.5281/zenodo.10897841)
+
 ### Description
 
 This package performs regression analysis on a partially missing target outcome while borrowing information from a correlated surrogate outcome. Rather than regarding the surrogate outcome as a proxy for the target outcome, the target and surrogate outcomes are jointly modeled within a bivariate regression framework. Unobserved values of either outcome are treated as missing data. In contrast to imputation-based inference, surrogate regression is robust, requiring no assumptions regarding the relationship between the target and surrogate outcomes. However, in order for surrogate inference to improve efficiency, the target and surrogate outcomes must be correlated, and the target outcome must be partially missing. When both the target and the surrogate outcomes both contain missing values, estimation is performed via an expectation conditional maximization either ([ECME](https://www.jstor.org/stable/2337067)) algorithm. When missingness is confined to the target outcome, estimation is performed using an accelerated least squares procedure. A flexible association test is provided for evaluating hypotheses about the target regression parameters. For additional details, see the following:
