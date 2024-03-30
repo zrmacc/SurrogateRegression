@@ -1,13 +1,17 @@
 # Surrogate Outcome Regression Analsyis
 
 Zachary McCaw <br>
-Updated: 2022-08-05
+Updated: 2024-03-30
 
 ### Description
 
-This package performs estimation and inference on a partially missing target outcome (e.g. gene expression in an inaccessible tissue) while borrowing information from a correlated surrogate outcome (e.g. gene expression in an accessible tissue). Rather than regarding the surrogate outcome as a proxy for the target outcome, the target and surrogate outcomes are jointly modeled within a bivariate regression framework. Unobserved values of either outcome are treated as missing data. In contrast to imputation-based inference, no assumptions are required regarding the relationship between the target and surrogate outcomes. However, in order for surrogate inference to improve efficiency, the target and surrogate outcomes must be correlated, and the target outcome must be partially missing. Estimation in the presence of bilateral outcome missingness is performed via an expectation conditional maximization either ([ECME](https://www.jstor.org/stable/2337067)) algorithm. In the case of unilateral target missingness, estimation is performed using an accelerated least squares procedure. A flexible association test is provided for evaluating hypotheses about the target regression parameters. For additional details, see: McCaw ZR, Gaynor SM, Sun R, Lin X: [Leveraging a surrogate outcome to improve inference on a partially missing target outcome](https://onlinelibrary.wiley.com/doi/10.1111/biom.13629) ([bioRxiv](https://www.biorxiv.org/content/10.1101/2020.11.29.403063v4)). Also see:
+This package performs regression analysis on a partially missing target outcome while borrowing information from a correlated surrogate outcome. Rather than regarding the surrogate outcome as a proxy for the target outcome, the target and surrogate outcomes are jointly modeled within a bivariate regression framework. Unobserved values of either outcome are treated as missing data. In contrast to imputation-based inference, surrogate regression is robust, requiring no assumptions regarding the relationship between the target and surrogate outcomes. However, in order for surrogate inference to improve efficiency, the target and surrogate outcomes must be correlated, and the target outcome must be partially missing. When both the target and the surrogate outcomes both contain missing values, estimation is performed via an expectation conditional maximization either ([ECME](https://www.jstor.org/stable/2337067)) algorithm. When missingness is confined to the target outcome, estimation is performed using an accelerated least squares procedure. A flexible association test is provided for evaluating hypotheses about the target regression parameters. For additional details, see the following:
 
-* [MGMM](https://github.com/zrmacc/MGMM#missingness-aware-gaussian-mixture-models) for estimation of Gaussian Mixture Models in the presence of missing data. 
+* **For the case where the target and surrogate outcomes both contain missing values**: McCaw ZR, Gaynor SM, Sun R, Lin X: [Leveraging a surrogate outcome to improve inference on a partially missing target outcome](https://onlinelibrary.wiley.com/doi/10.1111/biom.13629) ([bioRxiv](https://www.biorxiv.org/content/10.1101/2020.11.29.403063v4)).
+
+* **For the case where only the target outcome contains missing values**: McCaw ZR, Gao J, Lin X, Gronsbell J: [Leveraging a machine learning derived surrogate phenotype to improve power for genome-wide association studies of partially missing phenotypes in population biobanks](https://www.biorxiv.org/content/10.1101/2022.12.12.520180v2).
+
+* **For the related problem of fitting Gaussian mixture models on data with missing values**: McCaw ZR, Aschard H, Julienne H: [Fitting Gaussian mixture models on incomplete data](https://link.springer.com/article/10.1186/s12859-022-04740-9), and the accompanying R package [MGMM](https://github.com/zrmacc/MGMM#missingness-aware-gaussian-mixture-models).
 
 ### Installation
 

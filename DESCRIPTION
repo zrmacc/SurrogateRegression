@@ -1,7 +1,7 @@
 Package: SurrogateRegression
 Title: Surrogate Outcome Regression Analysis
-Date: 2022-08-05
-Version: 0.6.0
+Date: 2023-10-01
+Version: 0.6.0.1
 Authors@R: 
     person(given = "Zachary",
            family = "McCaw",
@@ -20,7 +20,7 @@ Imports:
 	methods,
 	Rcpp,
 	stats
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.3
 Suggests: 
     testthat (>= 3.0.0),
     knitr,

@@ -1,9 +1,15 @@
 # Purpose: Package documentation
-# Updated: 2022-08-05
+# Updated: 2023-10-01
 
 #' @useDynLib SurrogateRegression, .registration = TRUE
 #' @importFrom Rcpp sourceCpp
 NULL
+
+
+## usethis namespace: start
+## usethis namespace: end
+NULL
+
 
 #' SurrogateRegression: Surrogate Outcome Regression Analysis
 #'
@@ -27,4 +33,5 @@ NULL
 #' @author Zachary R. McCaw
 #' @docType package
 #' @name SurrogateRegression
+#' @aliases SurrogateRegression-package
 NULL

@@ -3,6 +3,7 @@
 \docType{package}
 \name{SurrogateRegression}
 \alias{SurrogateRegression}
+\alias{SurrogateRegression-package}
 \title{SurrogateRegression: Surrogate Outcome Regression Analysis}
 \description{
 This package performs estimation and inference on a partially missing target
