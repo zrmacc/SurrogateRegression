@@ -1,7 +1,7 @@
 # Surrogate Outcome Regression Analsyis
 
 Zachary McCaw <br>
-Updated: 2024-03-30
+Updated: 2024-10-11
 
 [![DOI](https://zenodo.org/badge/128422935.svg)](https://zenodo.org/doi/10.5281/zenodo.10897841)
 
@@ -11,7 +11,7 @@ This package performs regression analysis on a partially missing target outcome 
 
 * **For the case where the target and surrogate outcomes both contain missing values**: McCaw ZR, Gaynor SM, Sun R, Lin X: [Leveraging a surrogate outcome to improve inference on a partially missing target outcome](https://onlinelibrary.wiley.com/doi/10.1111/biom.13629) ([bioRxiv](https://www.biorxiv.org/content/10.1101/2020.11.29.403063v4)).
 
-* **For the case where only the target outcome contains missing values**: McCaw ZR, Gao J, Lin X, Gronsbell J: [Leveraging a machine learning derived surrogate phenotype to improve power for genome-wide association studies of partially missing phenotypes in population biobanks](https://www.biorxiv.org/content/10.1101/2022.12.12.520180v2).
+* **For the case where only the target outcome contains missing values**: McCaw ZR, Gao J, Lin X, Gronsbell J: [Synthetic surrogates improve power for genome-wide association studies of partially missing phenotypes in population biobanks](https://www.nature.com/articles/s41588-024-01793-9) ([bioRxiv](https://www.biorxiv.org/content/10.1101/2022.12.12.520180v2)).
 
 * **For the related problem of fitting Gaussian mixture models on data with missing values**: McCaw ZR, Aschard H, Julienne H: [Fitting Gaussian mixture models on incomplete data](https://link.springer.com/article/10.1186/s12859-022-04740-9), and the accompanying R package [MGMM](https://github.com/zrmacc/MGMM#missingness-aware-gaussian-mixture-models).
 
