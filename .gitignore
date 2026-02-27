@@ -13,6 +13,11 @@
 README_cache/
 README.html
 
+# Vignette build artifacts (built outputs live in inst/doc)
+vignettes/*.html
+vignettes/*.R
+vignettes/*.knit.md
+
 # Build and check
 *.o
 *.so
@@ -27,3 +32,5 @@ src/symbols.rds
 .DS_Store
 *.swp
 *~
+/doc/
+/Meta/
