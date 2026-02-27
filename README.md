@@ -1,12 +1,3 @@
----
-title: "README"
-author: "Zachary R. McCaw"
-date: "2026-02-26"
-output: 
-  html_document: 
-    keep_md: TRUE
---- 
-
 # Surrogate Outcome Regression Analysis
 
 [![R-CMD-check](https://github.com/zrmacc/SurrogateRegression/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/zrmacc/SurrogateRegression/actions/workflows/R-CMD-check.yaml)
