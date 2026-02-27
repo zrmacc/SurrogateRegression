@@ -5,11 +5,13 @@
 #'
 #' @param data_part List of partitioned data. See \code{\link{PartitionData}}.
 #' @param sigma Target-surrogate covariance matrix.
+#' @param sigma_inv Optional precomputed inverse of \code{sigma}. If \code{NULL},
+#'   computed from \code{sigma}.
 #' @param as_matrix Return as an information matrix? If FALSE, returns a list.
 #' @return List containing the information matrix for beta (Ibb), the
 #'   information matrix for alpha (Iaa), and the cross information (Iba).
-RegInfo <- function(data_part, sigma, as_matrix = FALSE) {
-  
+RegInfo <- function(data_part, sigma, sigma_inv = NULL, as_matrix = FALSE) {
+
   # Dimensions.
   p <- data_part$Dims$p
   q <- data_part$Dims$q
@@ -19,7 +21,9 @@ RegInfo <- function(data_part, sigma, as_matrix = FALSE) {
   n2 <- data_part$Dims$n2
 
   # Inverse covariance matrix.
-  sigma_inv <- matInv(sigma)
+  if (is.null(sigma_inv)) {
+    sigma_inv <- matInv(sigma)
+  }
   
   # -----------------------------------
   

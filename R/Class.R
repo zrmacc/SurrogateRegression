@@ -136,7 +136,7 @@ residuals.bnr <- function(object, ..., type = NULL) {
 
 #' Extract Covariance Matrix from Bivariate Normal Regression Model
 #'
-#' Returns the either the estimated covariance matrix of the outcome, the
+#' Returns either the estimated covariance matrix of the outcome, the
 #' information matrix for regression coefficients, or the information matrix for
 #' covariance parameters.
 #'

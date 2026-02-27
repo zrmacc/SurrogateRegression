@@ -17,7 +17,7 @@
 \item{inv}{Invert the covariance matrix? Default is FALSE.}
 }
 \description{
-Returns the either the estimated covariance matrix of the outcome, the
+Returns either the estimated covariance matrix of the outcome, the
 information matrix for regression coefficients, or the information matrix for
 covariance parameters.
 }

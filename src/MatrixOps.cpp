@@ -21,14 +21,20 @@ SEXP matDet(const arma::mat A, const bool logDet=false){
 }
 
 //' Matrix Inverse
-//' 
-//' Calcualtes \eqn{A^{-1}}.
+//'
+//' Calculates \eqn{A^{-1}}. Uses a direct solve for small matrices (3x3 or
+//' smaller) and pseudo-inverse otherwise.
 //'
 //' @param A Numeric matrix.
-//' @return Numeric matrix. 
+//' @return Numeric matrix.
 // [[Rcpp::export]]
 SEXP matInv(const arma::mat A){
-  const arma::mat Ai = arma::pinv(A);
+  arma::mat Ai;
+  if (A.n_rows <= 3 && A.n_cols <= 3) {
+    Ai = arma::inv(A);
+  } else {
+    Ai = arma::pinv(A);
+  }
   return Rcpp::wrap(Ai);
 }
 

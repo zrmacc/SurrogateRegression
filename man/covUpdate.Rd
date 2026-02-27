@@ -2,7 +2,7 @@
 % Please edit documentation in R/Update-Covariance.R
 \name{CovUpdate}
 \alias{CovUpdate}
-\title{Covariate Update}
+\title{Covariance Update}
 \usage{
 CovUpdate(data_part, b0, a0, b1, a1, sigma0)
 }
@@ -23,5 +23,5 @@ CovUpdate(data_part, b0, a0, b1, a1, sigma0)
 ECM update of the target-surrogate covariance matrix.
 }
 \description{
-Covariate Update
+Covariance Update
 }

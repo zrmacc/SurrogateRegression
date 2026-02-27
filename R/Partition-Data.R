@@ -131,7 +131,7 @@ PartitionData <- function(t, s, X, Z = NULL) {
   
   # -------------------------------------------------------
 
-  # Surrogate missing, surrogate observed.
+  # Surrogate missing, target observed.
   is_case_2 <- (R[, 1] == 1) & (R[, 2] == 0)
   t2 <- t[is_case_2, , drop = FALSE]
   s2 <- s[is_case_2, , drop = FALSE]

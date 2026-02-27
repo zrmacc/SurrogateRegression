@@ -16,7 +16,7 @@ test_that("Expectation maximization Wald test.", {
   
 
   # Test 1st coefficient.
-  score_test1 <- ScoreBNEM(
+  score_test1 <- SurrogateRegression:::ScoreBNEM(
     t = data[, 1],
     s = data[, 2],
     X = X,
@@ -26,7 +26,7 @@ test_that("Expectation maximization Wald test.", {
   expect_equal(as.numeric(score_test1["p"]), 0)
 
   # Test 2nd coefficient.
-  score_test2 <- ScoreBNEM(
+  score_test2 <- SurrogateRegression:::ScoreBNEM(
     t = data[, 1],
     s = data[, 2],
     X = X,
@@ -38,7 +38,7 @@ test_that("Expectation maximization Wald test.", {
   
   # Covariates passed as dataframe.
   expect_error({
-    ScoreBNEM(
+    SurrogateRegression:::ScoreBNEM(
       t = data[, 1],
       s = data[, 2],
       X = data.frame(X),

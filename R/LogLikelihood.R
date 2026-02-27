@@ -9,18 +9,21 @@
 #' @param sigma Target-surrogate covariance matrix.
 #' @return Observed data log likelihood.
 ObsLogLik <- function(data_part, b, a, sigma) {
-  
+
   # Ensure beta and alpha are matrices.
   b <- as.matrix(b, ncol = 1)
   a <- as.matrix(a, ncol = 1)
-  
+
   # Dimensions.
   n0 <- data_part$Dims$n0
   n1 <- data_part$Dims$n1
   n2 <- data_part$Dims$n2
-  
-  # -----------------------------------
 
+  # Precompute sigma inverse and log-determinant once.
+  sigma_inv <- matInv(sigma)
+  log_det_sigma <- matDet(sigma, logDet = TRUE)
+
+  # -----------------------------------
   # Contribution of complete cases.
   t0 <- data_part$Complete$t0
   s0 <- data_part$Complete$s0
@@ -28,7 +31,7 @@ ObsLogLik <- function(data_part, b, a, sigma) {
   Z0 <- data_part$Complete$Z0
 
   resid0 <- cbind(t0 - MMP(X0, b), s0 - MMP(Z0, a))
-  loglik0 <- n0 * log(matDet(sigma)) + tr(MMP(matInv(sigma), matIP(resid0, resid0)))
+  loglik0 <- n0 * log_det_sigma + tr(MMP(sigma_inv, matIP(resid0, resid0)))
   
   # -----------------------------------
 
@@ -38,19 +41,17 @@ ObsLogLik <- function(data_part, b, a, sigma) {
 
   resid1 <- matrix(c(s1 - MMP(Z1, a)), ncol = 1)
   loglik1 <- n1 * log(sigma[2, 2]) + as.numeric(matIP(resid1, resid1)) / sigma[2, 2]
-  
-  # -----------------------------------
 
+  # -----------------------------------
   # Contribution of subjects with surrogate missingness.
   t2 <- data_part$SMiss$t2
   X2 <- data_part$SMiss$X2
 
   resid2 <- matrix(c(t2 - MMP(X2, b)), ncol = 1)
   loglik2 <- n2 * log(sigma[1, 1]) + as.numeric(matIP(resid2, resid2)) / sigma[1, 1]
-  
-  # -----------------------------------
 
-  # Final log likelihood
+  # -----------------------------------
+  # Final log likelihood.
   loglik <- -0.5 * (loglik0 + loglik1 + loglik2)
 
   # Return

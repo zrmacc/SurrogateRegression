@@ -14,7 +14,7 @@ test_that("Least squares Wald test.", {
   )
 
   # Test 1st coefficient.
-  wald_test1 <- WaldBNLS(
+  wald_test1 <- SurrogateRegression:::WaldBNLS(
     t = data[, 1],
     s = data[, 2],
     X = X,
@@ -24,7 +24,7 @@ test_that("Least squares Wald test.", {
   expect_equal(as.numeric(wald_test1["p"]), 0)
 
   # Test 2nd coefficient.
-  wald_test2 <- WaldBNLS(
+  wald_test2 <- SurrogateRegression:::WaldBNLS(
     t = data[, 1],
     s = data[, 2],
     X = X,
@@ -34,7 +34,7 @@ test_that("Least squares Wald test.", {
   
   # Covariates passed as dataframe.
   expect_error({
-    WaldBNLS(
+    SurrogateRegression:::WaldBNLS(
       t = data[, 1],
       s = data[, 2],
       X = X,

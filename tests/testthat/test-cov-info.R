@@ -13,7 +13,7 @@ test_that("Covariance update.", {
   data_part <- PartitionData(t, s, x)
   
   # Observed.
-  obs <- CovInfo(data_part, sigma)
+  obs <- SurrogateRegression:::CovInfo(data_part, sigma)
   
   # Expected.
   itt <- 0.5 * (2 * (1/stt)^2 + 1 / (stt^2))

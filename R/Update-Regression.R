@@ -22,7 +22,7 @@ RegUpdate <- function(data_part, sigma) {
   sigma_inv <- matInv(sigma)
 
   # Information matrix for gamma = c(beta, alpha).
-  igg <- RegInfo(data_part = data_part, sigma = sigma, as_matrix = TRUE)
+  igg <- RegInfo(data_part = data_part, sigma = sigma, sigma_inv = sigma_inv, as_matrix = TRUE)
   iggi <- matInv(igg)
 
   # Calculate cross products.

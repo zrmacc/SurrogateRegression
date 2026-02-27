@@ -10,7 +10,7 @@
 #' @param t Target outcome vector.
 #' @param s Surrogate outcome vector.
 #' @param X Model matrix.
-#' @param is_zero Logical vector, with as many entires as columns in the target model
+#' @param is_zero Logical vector, with as many entries as columns in the target model
 #'   matrix, indicating which columns have coefficient zero under the null.
 #' @return A numeric vector containing the Wald statistic, the degrees of
 #'   freedom, and a p-value.

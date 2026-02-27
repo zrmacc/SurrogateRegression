@@ -1,0 +1,140 @@
+---
+title: "Surrogate Outcome Regression Analysis"
+author: "Zachary McCaw"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Surrogate Outcome Regression Analysis}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 6,
+  fig.height = 4
+)
+library(SurrogateRegression)
+```
+
+## Introduction
+
+The **SurrogateRegression** package fits regression models when the target outcome is partially missing but a correlated surrogate outcome is available. Rather than treating the surrogate as a simple proxy, the package jointly models the target and surrogate in a bivariate normal regression framework. Missing values are handled directly in the likelihood: when only the target is missing, an accelerated least squares procedure is used; when both outcomes can be missing or design matrices differ, estimation uses an ECME algorithm. No assumptions are required about the relationship between target and surrogate beyond the bivariate model.
+
+This vignette walks through the main functions: simulating data (`rBNR`), fitting the model (`FitBNR`), inspecting results (e.g. `coef`, `vcov`, `residuals`), and testing hypotheses on the target coefficients (`TestBNR`).
+
+## Data generation: `rBNR`
+
+`rBNR()` simulates from a bivariate normal regression model with outcomes missing completely at random. You provide the target and surrogate design matrices (`X`, `Z`), regression coefficient vectors (`b`, `a`), and optional target/surrogate missingness fractions and covariance matrix.
+
+```{r rBNR}
+set.seed(100)
+n <- 800L
+X <- cbind(1, rnorm(n))   # target design (intercept + 1 covariate)
+Z <- cbind(1, rnorm(n))   # surrogate design
+Y <- rBNR(
+  X = X,
+  Z = Z,
+  b = c(1, 1),            # target coefficients
+  a = c(-1, -1),          # surrogate coefficients
+  t_miss = 0.2,           # 20% target missing
+  s_miss = 0.1            # 10% surrogate missing
+)
+head(Y, 10)
+```
+
+The result is an `n` x 2 matrix with columns `"Target"` and `"Surrogate"`; `NA` indicates missing. By construction, at least one outcome is observed for each subject (`t_miss + s_miss` must be ≤ 1).
+
+## Fitting the model: `FitBNR`
+
+`FitBNR()` takes the target and surrogate outcome vectors and their design matrices. It chooses the fitting method automatically: accelerated least squares when the surrogate is complete and the design is the same for both outcomes, and ECME when there is surrogate missingness or different designs.
+
+```{r FitBNR}
+fit <- FitBNR(
+  t = Y[, "Target"],
+  s = Y[, "Surrogate"],
+  X = X,
+  Z = Z
+)
+```
+
+The returned object is of class `bnr`. Use `show()` (or print the object) to see the regression and covariance tables:
+
+```{r show}
+show(fit)
+```
+
+## Extracting results
+
+**Coefficients** — Extract the regression coefficient table, optionally by outcome:
+
+```{r coef}
+coef(fit)
+coef(fit, type = "Target")
+```
+
+**Residuals** — Fitted residuals for the target, surrogate, or both:
+
+```{r resid}
+head(residuals(fit), 5)
+head(residuals(fit, type = "Target"), 5)
+```
+
+**Variance-covariance** — `vcov()` can return the estimated residual covariance of the outcomes, the information matrix for regression coefficients, or for covariance parameters:
+
+```{r vcov}
+# Residual covariance of (target, surrogate)
+vcov(fit, type = "Outcome")
+# Information matrix for regression coefficients (inverse = asymptotic cov of coefs)
+info_reg <- vcov(fit, type = "Regression")
+dim(info_reg)
+```
+
+## Hypothesis testing: `TestBNR`
+
+`TestBNR()` tests the null that a subset of the **target** regression coefficients is zero. You specify which coefficients are zero under the null with the logical vector `is_zero` (one entry per column of `X`), and choose `test = "Wald"` or `test = "Score"`. When fitting uses least squares, only the Wald test is available.
+
+```{r TestBNR}
+# Test that the first target coefficient (intercept) is zero
+test_intercept <- TestBNR(
+  t = Y[, "Target"],
+  s = Y[, "Surrogate"],
+  X = X,
+  Z = Z,
+  is_zero = c(TRUE, FALSE),
+  test = "Wald"
+)
+test_intercept
+
+# Test that the second target coefficient is zero
+test_slope <- TestBNR(
+  t = Y[, "Target"],
+  s = Y[, "Surrogate"],
+  X = X,
+  Z = Z,
+  is_zero = c(FALSE, TRUE),
+  test = "Wald"
+)
+test_slope
+```
+
+The function returns the test statistic, degrees of freedom, and p-value.
+
+## Partitioning by missingness: `PartitionData`
+
+For advanced use, `PartitionData()` splits the data by missingness pattern (complete, target missing, surrogate missing) and precomputes inner products used in estimation. This is used internally by the package but can be useful for custom analyses.
+
+```{r PartitionData}
+part <- PartitionData(
+  t = Y[, "Target"],
+  s = Y[, "Surrogate"],
+  X = X,
+  Z = Z
+)
+names(part)
+part$Dims$n0   # complete cases
+part$Dims$n1   # target missing, surrogate observed
+part$Dims$n2   # surrogate missing, target observed
+```

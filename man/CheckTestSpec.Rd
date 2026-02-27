@@ -7,7 +7,7 @@
 CheckTestSpec(is_zero, p)
 }
 \arguments{
-\item{is_zero}{Logical vector, with as many entires as columns in the target model
+\item{is_zero}{Logical vector, with as many entries as columns in the target model
 matrix, indicating which columns have coefficient zero under the null.}
 
 \item{p}{Number of columns for the target model matrix.}

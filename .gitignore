@@ -1,3 +1,29 @@
-**.Rproj.user
-**.Rhistroy
-**.DS_store
+# R and IDE
+.Rhistory
+.RData
+.Rproj.user
+*.Rproj
+
+# Cache directories (knitr, vignettes, etc.)
+**/*_cache/
+**/cache/
+**/.cache/
+
+# README build
+README_cache/
+README.html
+
+# Build and check
+*.o
+*.so
+*.dll
+src/*.o
+src/*.so
+src/*.dll
+src/symbols.rds
+.Rcheck/
+
+# OS
+.DS_Store
+*.swp
+*~

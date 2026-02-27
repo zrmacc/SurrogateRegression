@@ -4,12 +4,15 @@
 \alias{RegInfo}
 \title{Regression Information}
 \usage{
-RegInfo(data_part, sigma, as_matrix = FALSE)
+RegInfo(data_part, sigma, sigma_inv = NULL, as_matrix = FALSE)
 }
 \arguments{
 \item{data_part}{List of partitioned data. See \code{\link{PartitionData}}.}
 
 \item{sigma}{Target-surrogate covariance matrix.}
+
+\item{sigma_inv}{Optional precomputed inverse of \code{sigma}. If \code{NULL},
+computed from \code{sigma}.}
 
 \item{as_matrix}{Return as an information matrix? If FALSE, returns a list.}
 }

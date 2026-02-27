@@ -13,5 +13,6 @@ matInv(A)
 Numeric matrix.
 }
 \description{
-Calcualtes \eqn{A^{-1}}.
+Calculates \eqn{A^{-1}}. Uses a direct solve for small matrices (3x3 or
+smaller) and pseudo-inverse otherwise.
 }

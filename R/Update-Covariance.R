@@ -2,7 +2,7 @@
 # Updated: 2022-08-05
 
 
-#' Covariate Update
+#' Covariance Update
 #'
 #' @param data_part List of partitioned data. See \code{\link{PartitionData}}.
 #' @param b0 Previous target regression coefficient.
@@ -28,53 +28,45 @@ CovUpdate <- function(data_part, b0, a0, b1, a1, sigma0) {
   # Inverse covariance matrix.
   sigma_inv0 <- matInv(sigma0)
 
-  # Residual vectors.
-  et <- es <- c()
-  
+  # Preallocate residual vectors (order: complete, target-missing, surrogate-missing).
+  et <- numeric(n)
+  es <- numeric(n)
+  idx <- 0L
+
   # -----------------------------------
-  
   # Complete cases.
   if (n0 > 0) {
-    
-    # Target.
     et0 <- data_part$Complete$t0 - MMP(data_part$Complete$X0, b1)
-    et <- c(et, et0)
-    
-    # Surrogate.
     es0 <- data_part$Complete$s0 - MMP(data_part$Complete$Z0, a1)
-    es <- c(es, es0)
+    seg <- idx + seq_len(n0)
+    et[seg] <- et0
+    es[seg] <- es0
+    idx <- idx + n0
   }
-  
+
   # -----------------------------------
-  
   # Target missing.
   if (n1 > 0) {
-    
-    # Surrogate.
     es1 <- data_part$TMiss$s1 - MMP(data_part$TMiss$Z1, a1)
-    es <- c(es, es1)
-    
-    # Target.
     w1 <- (sigma0[1, 2] / sigma0[2, 2])
-    et1 <- MMP(data_part$TMiss$X1, b0 - b1) + 
+    et1 <- MMP(data_part$TMiss$X1, b0 - b1) +
       w1 * (data_part$TMiss$s1 - MMP(data_part$TMiss$Z1, a0))
-    et <- c(et, et1)
+    seg <- idx + seq_len(n1)
+    et[seg] <- et1
+    es[seg] <- es1
+    idx <- idx + n1
   }
-  
+
   # -----------------------------------
-  
   # Surrogate missing.
   if (n2 > 0) {
-    
-    # Target.
     et2 <- data_part$SMiss$t2 - MMP(data_part$SMiss$X2, b1)
-    et <- c(et, et2)
-    
-    # Surrogate.
     w2 <- (sigma0[2, 1] / sigma0[1, 1])
-    es2 <- MMP(data_part$SMiss$Z2, a0 - a1) + 
+    es2 <- MMP(data_part$SMiss$Z2, a0 - a1) +
       w2 * (data_part$SMiss$t2 - MMP(data_part$SMiss$X2, b0))
-    es <- c(es, es2)
+    seg <- idx + seq_len(n2)
+    et[seg] <- et2
+    es[seg] <- es2
   }
 
   # Residual matrix.

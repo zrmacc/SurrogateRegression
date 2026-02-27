@@ -55,5 +55,24 @@ test_that("Test inference procedure.", {
     test = "Score"
   )
   expect_gt(score_test2["p"], 0.05)
-  
+})
+
+test_that("TestBNR input validation.", {
+  withr::local_seed(101)
+  n <- 100
+  X <- cbind(1, stats::rnorm(n))
+  Z <- cbind(1, stats::rnorm(n))
+  data <- rBNR(X = X, Z = Z, b = c(1, 0), a = c(-1, 0), t_miss = 0.1, s_miss = 0.1)
+  expect_error(
+    TestBNR(t = data[, 1], s = data[, 2], X = X, Z = Z, is_zero = c(TRUE, FALSE), test = "Invalid"),
+    "select either"
+  )
+  expect_error(
+    TestBNR(t = data[, 1], s = data[, 2], X = X, Z = Z, is_zero = c(1, 0), test = "Wald"),
+    "logical"
+  )
+  expect_error(
+    TestBNR(t = data[, 1], s = data[, 2], X = X, Z = Z, is_zero = TRUE, test = "Wald"),
+    "one entry per column"
+  )
 })

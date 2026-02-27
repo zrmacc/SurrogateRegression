@@ -1,7 +1,0 @@
-\documentclass{article}
-\usepackage{pdfpages}
-%\VignetteIndexEntry{Surrogate Outcome Regression Analysis}
-
-\begin{document}
-\includepdf[pages=-, fitpaper=true]{Vignette.pdf}
-\end{document}

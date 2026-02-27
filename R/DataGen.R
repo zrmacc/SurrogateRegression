@@ -71,37 +71,36 @@ rBNR <- function(
  
   # Observations.
   n <- nrow(X)
-  
-  # Linear predictors
-  eta_t <- MMP(X, b)
-  eta_s <- MMP(Z, a)
- 
+
+  # Linear predictors (single C++ call).
+  eta <- linearPredictors(X, Z, b, a)
+
   # Residuals.
   if (include_residuals) {
     eig <- eigen(sigma, only.values = TRUE)$values
     if (min(eig) <= 0) {
       stop("Covariance matrix is not positive definite.")
     }
-    
+
     et <- stats::rnorm(
       n = n,
       mean = 0,
       sd = sqrt(sigma[1, 1])
     )
-    
+
     es <- stats::rnorm(
       n = n,
       mean = sigma[2, 1] / sigma[1, 1] * et,
       sd = sqrt(sigma[2, 2] - sigma[2, 1] / sigma[1, 1] * sigma[1, 2])
     )
-    
+
     ts_resid <- cbind(et, es)
   } else {
     ts_resid <- array(0, dim = c(n, 2))
   }
-  
+
   # Outcomes.
-  y <- cbind(eta_t, eta_s) + ts_resid
+  y <- eta + ts_resid
 
   # Target missingness.
   nt_miss <- floor(t_miss * n)

@@ -5,18 +5,21 @@
 #'
 #' @param data_part List of partitioned data. See \code{\link{PartitionData}}.
 #' @param sigma Target-surrogate covariance matrix.
+#' @param sigma_inv Optional precomputed inverse of \code{sigma}. If \code{NULL},
+#'   computed from \code{sigma}.
 #' @return 3x3 Numeric information matrix for the target variance,
 #'   target-surrogate covariance, and surrogate variance.
+CovInfo <- function(data_part, sigma, sigma_inv = NULL) {
 
-CovInfo <- function(data_part, sigma) {
-  
   # Dimensions.
   n0 <- data_part$Dims$n0
   n1 <- data_part$Dims$n1
   n2 <- data_part$Dims$n2
 
-  # Lambda.
-  sigma_inv <- matInv(sigma)
+  # Inverse covariance.
+  if (is.null(sigma_inv)) {
+    sigma_inv <- matInv(sigma)
+  }
 
   out <- array(0, dim = c(3, 3))
   

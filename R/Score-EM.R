@@ -11,7 +11,7 @@
 #' @param s Surrogate outcome vector.
 #' @param X Target model matrix.
 #' @param Z Surrogate model matrix.
-#' @param is_zero Logical vector, with as many entires as columns in the target model
+#' @param is_zero Logical vector, with as many entries as columns in the target model
 #'   matrix, indicating which columns have coefficient zero under the null.
 #' @param init Optional list of initial parameters for fitting the null model.
 #' @param maxit Maximum number of parameter updates.

@@ -11,7 +11,7 @@ test_that("Regression update.", {
   data_part <- PartitionData(t, s, x)
   
   # Observed.
-  obs <- RegUpdate(data_part, sigma)
+  obs <- SurrogateRegression:::RegUpdate(data_part, sigma)
   
   # Expected.
   igg <- diag(c(1, 2))

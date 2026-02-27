@@ -25,13 +25,11 @@ NULL
 #' outcome must be partially missing. The primary estimation function is
 #' \code{\link{FitBNR}}. In the case of bilateral missingness, i.e. missingness
 #' in both the target and surrogate outcomes, estimation is performed via an
-#' expectation conditional maximization either (ECME) algorithm. In the case of
+#' expectation conditional maximization (ECME) algorithm. In the case of
 #' unilateral target missingness, estimation is performed using an accelerated
 #' least squares procedure. Inference on regression parameters for the target
 #' outcome is performed using \code{\link{TestBNR}}.
 #'
 #' @author Zachary R. McCaw
-#' @docType package
-#' @name SurrogateRegression
-#' @aliases SurrogateRegression-package
-NULL
+#' @keywords internal
+"_PACKAGE"

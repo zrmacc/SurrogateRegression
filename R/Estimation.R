@@ -18,7 +18,7 @@
 #' @param sig Significance level.
 #' @param ... Additional arguments accepted if fitting via EM. See
 #'   \code{\link{FitBNEM}}.
-#' @return An object of class 'mnr' with slots containing the estimated regression
+#' @return An object of class \code{bnr} with slots containing the estimated regression
 #'  coefficients, the target-surrogate covariance matrix, the information matrices
 #'  for regression parameters, and the residuals.
 #' @export
@@ -71,7 +71,7 @@
 FitBNR <- function(t, s, X, Z = NULL, sig = 0.05, ...) {
   
   # Input checks.
-  if ((sum(is.na(X)) > 0) || (sum(is.na(Z) > 0))) {
+  if ((sum(is.na(X)) > 0) || (!is.null(Z) && sum(is.na(Z)) > 0)) {
     stop("Missing values are not expected in the covariate matrices.")
   }
   
@@ -86,7 +86,7 @@ FitBNR <- function(t, s, X, Z = NULL, sig = 0.05, ...) {
   } else {
     
     # Otherwise, apply the least squares procedure.
-    out <- FitBNLS(t = t, s = s, X = X)
+    out <- FitBNLS(t = t, s = s, X = X, sig = sig)
 
   }
  

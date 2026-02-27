@@ -4,12 +4,15 @@
 \alias{CovInfo}
 \title{Covariance Information Matrix}
 \usage{
-CovInfo(data_part, sigma)
+CovInfo(data_part, sigma, sigma_inv = NULL)
 }
 \arguments{
 \item{data_part}{List of partitioned data. See \code{\link{PartitionData}}.}
 
 \item{sigma}{Target-surrogate covariance matrix.}
+
+\item{sigma_inv}{Optional precomputed inverse of \code{sigma}. If \code{NULL},
+computed from \code{sigma}.}
 }
 \value{
 3x3 Numeric information matrix for the target variance,

@@ -6,6 +6,25 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
+// linearPredictors
+SEXP linearPredictors(const arma::mat X, const arma::mat Z, const arma::colvec b, const arma::colvec a);
+RcppExport SEXP _SurrogateRegression_linearPredictors(SEXP XSEXP, SEXP ZSEXP, SEXP bSEXP, SEXP aSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const arma::mat >::type X(XSEXP);
+    Rcpp::traits::input_parameter< const arma::mat >::type Z(ZSEXP);
+    Rcpp::traits::input_parameter< const arma::colvec >::type b(bSEXP);
+    Rcpp::traits::input_parameter< const arma::colvec >::type a(aSEXP);
+    rcpp_result_gen = Rcpp::wrap(linearPredictors(X, Z, b, a));
+    return rcpp_result_gen;
+END_RCPP
+}
 // fitOLS
 SEXP fitOLS(const arma::colvec y, const arma::mat X);
 RcppExport SEXP _SurrogateRegression_fitOLS(SEXP ySEXP, SEXP XSEXP) {
@@ -115,6 +134,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_SurrogateRegression_linearPredictors", (DL_FUNC) &_SurrogateRegression_linearPredictors, 4},
     {"_SurrogateRegression_fitOLS", (DL_FUNC) &_SurrogateRegression_fitOLS, 2},
     {"_SurrogateRegression_matDet", (DL_FUNC) &_SurrogateRegression_matDet, 2},
     {"_SurrogateRegression_matInv", (DL_FUNC) &_SurrogateRegression_matInv, 1},

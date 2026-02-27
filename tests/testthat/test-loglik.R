@@ -11,7 +11,7 @@ test_that("Log likelihood calculation.", {
   b <- 0
   sigma <- diag(2)
   
-  obs <- ObsLogLik(data_part, b = b, a = a, sigma = sigma)
+  obs <- SurrogateRegression:::ObsLogLik(data_part, b = b, a = a, sigma = sigma)
   exp <- -0.5 * (2 + 1 + 1)
   expect_equal(obs, exp)
   
@@ -20,7 +20,7 @@ test_that("Log likelihood calculation.", {
   b <- 0
   sigma <- diag(2)
   
-  obs <- ObsLogLik(data_part, b = b, a = a, sigma = sigma)
+  obs <- SurrogateRegression:::ObsLogLik(data_part, b = b, a = a, sigma = sigma)
   exp <- -0.5 * (1 + 1)
   expect_equal(obs, exp)
   
@@ -29,7 +29,7 @@ test_that("Log likelihood calculation.", {
   b <- 0
   sigma <- 2 * diag(2)
   
-  obs <- ObsLogLik(data_part, b = b, a = a, sigma = sigma)
+  obs <- SurrogateRegression:::ObsLogLik(data_part, b = b, a = a, sigma = sigma)
   exp <- -0.5 * (log(4) + 2 * log(2) + (1 + 0.5 + 0.5))
   expect_equal(obs, exp)
   

@@ -114,25 +114,28 @@ FormatOutput <- function(
   
   # Format sigma.
   colnames(sigma) <- rownames(sigma) <- c("Target", "Surrogate")
-  
+
+  # Precompute sigma inverse once for both info functions.
+  sigma_inv <- matInv(sigma)
+
   # Covariance information.
-  cov_info <- CovInfo(data_part = data_part, sigma = sigma)
-  colnames(cov_info) <- 
-    rownames(cov_info) <- 
+  cov_info <- CovInfo(data_part = data_part, sigma = sigma, sigma_inv = sigma_inv)
+  colnames(cov_info) <-
+    rownames(cov_info) <-
       c("Target-Target", "Target-Surrogate", "Surrogate-Surrogate")
-  
+
   # Covariance parameter table.
   cov_est <- c(
-    "Target" = sigma[1, 1], 
-    "Target-Surrogate" = sigma[1, 2], 
+    "Target" = sigma[1, 1],
+    "Target-Surrogate" = sigma[1, 2],
     "Surrogate" = sigma[2, 2]
   )
   cov_tab <- CovTab(point = cov_est, info = cov_info, sig = sig)
-  
+
   # -----------------------------------
-  
+
   # Regression information.
-  reg_info <- RegInfo(data_part = data_part, sigma = sigma, as_matrix = TRUE)
+  reg_info <- RegInfo(data_part = data_part, sigma = sigma, sigma_inv = sigma_inv, as_matrix = TRUE)
   
   # Formatting.
   reg_est <- c(b, a)

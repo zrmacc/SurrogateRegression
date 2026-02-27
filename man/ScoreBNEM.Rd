@@ -25,7 +25,7 @@ ScoreBNEM(
 
 \item{Z}{Surrogate model matrix.}
 
-\item{is_zero}{Logical vector, with as many entires as columns in the target model
+\item{is_zero}{Logical vector, with as many entries as columns in the target model
 matrix, indicating which columns have coefficient zero under the null.}
 
 \item{init}{Optional list of initial parameters for fitting the null model.}

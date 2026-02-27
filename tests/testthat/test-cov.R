@@ -17,7 +17,7 @@ test_that("Covariance update.", {
   )
   exp <- t(e) %*% e + diag(c(1, 0)) + diag(c(0, 1))
   exp <- exp / nrow(e)
-  obs <- CovUpdate(data_part, 0, 0, 0, 0, diag(2))
+  obs <- SurrogateRegression:::CovUpdate(data_part, 0, 0, 0, 0, diag(2))
   expect_equal(obs, exp)
     
 })

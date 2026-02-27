@@ -186,7 +186,7 @@ IterUpdate <- function(
   report
 ) {
   
-  # Maximzation
+  # Maximization
   for (i in 1:maxit) {
     
     # Update.

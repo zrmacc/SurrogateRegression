@@ -11,7 +11,7 @@ test_that("Regression information.", {
   data_part <- PartitionData(t, s, x)
   
   # Observed.
-  info <- RegInfo(data_part, sigma)
+  info <- SurrogateRegression:::RegInfo(data_part, sigma)
   
   # Information for beta.
   ibb <- lambda[1, 1] * 1 + 1 / sigma[1, 1]

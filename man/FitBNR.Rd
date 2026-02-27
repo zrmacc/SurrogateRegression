@@ -21,7 +21,7 @@ FitBNR(t, s, X, Z = NULL, sig = 0.05, ...)
 \code{\link{FitBNEM}}.}
 }
 \value{
-An object of class 'mnr' with slots containing the estimated regression
+An object of class \code{bnr} with slots containing the estimated regression
  coefficients, the target-surrogate covariance matrix, the information matrices
  for regression parameters, and the residuals.
 }

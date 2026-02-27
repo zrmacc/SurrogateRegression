@@ -11,14 +11,14 @@ CheckInit <- function(init) {
        is.null(names(init)) || 
        !all(names(init) %in% c("b0", "a0", "sigma0"))
       ) {
-     stop("If initial parameter are provided, init should take the form of a list with one or more of these elements: a0, b0, sigma0.")
+     stop("If initial parameters are provided, init should take the form of a list with one or more of these elements: a0, b0, sigma0.")
      }
    }
 }
 
 #' Check Test Specification
 #' 
-#' @param is_zero Logical vector, with as many entires as columns in the target model
+#' @param is_zero Logical vector, with as many entries as columns in the target model
 #'   matrix, indicating which columns have coefficient zero under the null.
 #' @param p Number of columns for the target model matrix.
 CheckTestSpec <- function(is_zero, p) {
@@ -50,7 +50,7 @@ CheckTestSpec <- function(is_zero, p) {
 #' @param s Surrogate outcome vector.
 #' @param X Target model matrix.
 #' @param Z Surrogate model matrix.
-#' @param is_zero Logical vector, with as many entires as columns in the target
+#' @param is_zero Logical vector, with as many entries as columns in the target
 #'   model matrix, indicating which columns have coefficient zero under the
 #'   null.
 #' @param test Either Score or Wald. Only Wald is available for LS.
@@ -118,14 +118,14 @@ TestBNR <- function(
 ) {
   
   # Input checks.
-  if ((sum(is.na(X)) > 0) || (sum(is.na(Z) > 0))) {
+  if ((sum(is.na(X)) > 0) || (!is.null(Z) && sum(is.na(Z)) > 0)) {
     stop("Missing values are not expected in the covariate matrices.")
   }
   if (!is.logical(is_zero)) {
     stop("A logical vector is expected for is_zero.")
   }
   if (!(test %in% c("Score", "Wald"))) {
-    stop("Please selection either: Score or Wald.")
+    stop("Please select either: Score or Wald.")
   }
 
   # Determine if s contains missing values, or if Z differs from X.

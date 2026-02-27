@@ -7,7 +7,7 @@ test_that("Data generation.", {
   a <- 1
   
   # Calculation of design matrix.
-  obs <- rBNR(x, z, b, a, include_residual = FALSE)
+  obs <- rBNR(x, z, b, a, include_residuals = FALSE)
   exp <- array(1.0, dim = c(n, 2))
   expect_equal(obs, exp, ignore_attr = TRUE)
   

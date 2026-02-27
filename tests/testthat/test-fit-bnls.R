@@ -9,7 +9,7 @@ test_that("Fit bivariate model via least squares.", {
   data <- rBNR(X = x, Z = x, b = b, a = a, t_miss = 0.1, s_miss = 0.0)
   
   # Observed.
-  obs <- FitBNLS(t = data[, 1], s = data[, 2], X = x)
+  obs <- SurrogateRegression:::FitBNLS(t = data[, 1], s = data[, 2], X = x)
   obs <- obs@Regression.tab
   
   expect_equal(obs$Point[1], b, tolerance = 0.05)
